@@ -15,7 +15,7 @@ class HomeViewModel {
     
     func getAllData() {
         getPopular()
-        getTrending()
+        getTopRated()
         getNowPlaying()
         getUpcoming()
     }
@@ -32,13 +32,13 @@ class HomeViewModel {
         }
     }
     
-    func getTrending() {
+    func getTopRated() {
         manager.getAPIRequest(endPoint: .popular, model: Movie.self) { [weak self] data, error in
             guard let self = self else { return }
             if let error {
                 errorHandling?(error)
             } else if let data {
-                home.append(.init(title: "Trending", items: data.results ?? []))
+                home.append(.init(title: "Top Rated", items: data.results ?? []))
                 success?()
             }
         }

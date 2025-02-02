@@ -70,4 +70,9 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         .init(width: collectionView.frame.width, height: 320)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let controller = MovieDetailVC()
+        navigationController?.show(controller, sender: nil)
+    }
 }

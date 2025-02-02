@@ -13,13 +13,15 @@ class MovieCell: UICollectionViewCell {
     
     private lazy var movieImage: UIImageView = {
         let image = UIImageView()
+        image.layer.cornerRadius = 16
+        image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
     private lazy var movieName: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0                    
+        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -41,20 +43,22 @@ class MovieCell: UICollectionViewCell {
     
     private func configConstraints() {
         NSLayoutConstraint.activate([
-            movieImage.widthAnchor.constraint(equalToConstant: 168),
-            movieImage.heightAnchor.constraint(equalToConstant: 240),
-            movieImage.topAnchor.constraint(equalTo: topAnchor, constant: 0),
-            movieImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
-            movieImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
+            movieImage.heightAnchor.constraint(equalToConstant: 220),
+            movieImage.topAnchor.constraint(equalTo: topAnchor, constant: 12),
+            movieImage.leadingAnchor.constraint(equalTo: leadingAnchor),
+            movieImage.trailingAnchor.constraint(equalTo: trailingAnchor),
             
             movieName.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 8),
-            movieName.centerYAnchor.constraint(equalTo: movieImage.centerYAnchor)
+            movieName.leadingAnchor.constraint(equalTo: movieImage.leadingAnchor, constant: 8),
+            movieName.trailingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: -8),
         ])
     }
     
     func configCell(name: String, imageURL: String, data: [MovieResult]) {
         movieName.text = name
-        
+        guard let imageURL = URL(string: "\(NetworkHelper.imageURL)/\(imageURL)") else { return }
+        movieImage.kf.setImage(with: imageURL,
+                               placeholder: UIImage(named: "placeholder"))
         self.data = data
     }
 }
