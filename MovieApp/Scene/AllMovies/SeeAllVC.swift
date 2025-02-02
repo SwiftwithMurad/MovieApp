@@ -1,22 +1,22 @@
 //
-//  MovieDetailVC.swift
+//  SeeAllController.swift
 //  MovieApp
 //
-//  Created by Mac on 01.02.25.
+//  Created by Mac on 02.02.25.
 //
 
 import UIKit
 
-class MovieDetailVC: UIViewController {
+class SeeAllVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configUI()
     }
-    
+
     private func configUI() {
+        title = "See All"
         view.backgroundColor = .white
-        title = "Movie Detail"
     }
 }

@@ -8,9 +8,13 @@
 import UIKit
 
 class HomeCell: UICollectionViewCell {
+    private var data = [MovieResult]()
+    var handleButton: (() -> Void)?
+    var handleCell: (() -> Void)?
+    
     private lazy var title: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 17, weight: .medium)
+        label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -34,9 +38,7 @@ class HomeCell: UICollectionViewCell {
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
-    
-    private var data = [MovieResult]()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -57,26 +59,26 @@ class HomeCell: UICollectionViewCell {
         collection.delegate = self
         collection.dataSource = self
         collection.register(MovieCell.self, forCellWithReuseIdentifier: "cell")
-        [title, seeAllButton, collection].forEach { addSubview($0) }
+        [title, seeAllButton, collection].forEach { contentView.addSubview($0) }
     }
     
     private func configConstraints() {
         NSLayoutConstraint.activate([
-            title.topAnchor.constraint(equalTo: topAnchor, constant: 24),
-            title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
+            title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
             
             seeAllButton.centerYAnchor.constraint(equalTo: title.centerYAnchor),
-            seeAllButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            seeAllButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             
             collection.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 16),
-            collection.leadingAnchor.constraint(equalTo: leadingAnchor),
-            collection.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collection.bottomAnchor.constraint(equalTo: bottomAnchor),
+            collection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            collection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            collection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
     
     @objc func seeAllButtonTapped() {
-        
+        handleButton?()
     }
 }
 
@@ -88,12 +90,17 @@ extension HomeCell: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieCell
         let cellData = data[indexPath.row]
-        cell.configCell(name: cellData.title ?? "", imageURL: cellData.posterPath ?? "", data: data)
+        cell.configCell(name: cellData.title ?? "",
+                        imageURL: cellData.posterPath ?? "",
+                        data: data)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         .init(width: 168, height: collectionView.frame.height)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        handleCell?()
+    }
 }
-

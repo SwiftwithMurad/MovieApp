@@ -33,7 +33,7 @@ class HomeViewModel {
     }
     
     func getTopRated() {
-        manager.getAPIRequest(endPoint: .popular, model: Movie.self) { [weak self] data, error in
+        manager.getAPIRequest(endPoint: .topRated, model: Movie.self) { [weak self] data, error in
             guard let self = self else { return }
             if let error {
                 errorHandling?(error)
@@ -45,7 +45,7 @@ class HomeViewModel {
     }
     
     func getNowPlaying() {
-        manager.getAPIRequest(endPoint: .popular, model: Movie.self) { [weak self] data, error in
+        manager.getAPIRequest(endPoint: .nowPlaying, model: Movie.self) { [weak self] data, error in
             guard let self = self else { return }
             if let error {
                 errorHandling?(error)
@@ -57,7 +57,7 @@ class HomeViewModel {
     }
     
     func getUpcoming() {
-        manager.getAPIRequest(endPoint: .popular, model: Movie.self) { [weak self] data, error in
+        manager.getAPIRequest(endPoint: .upcoming, model: Movie.self) { [weak self] data, error in
             guard let self = self else { return }
             if let error {
                 errorHandling?(error)

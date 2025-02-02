@@ -27,14 +27,16 @@ class HomeVC: UIViewController {
         configViewModel()
     }
     
-    private func configUI() {
+    fileprivate func configUI() {
+        navigationItem.title = "Movies"
+        self.navigationController?.navigationBar.prefersLargeTitles = true        
         view.addSubview(collection)
         collection.register(HomeCell.self, forCellWithReuseIdentifier: "cell")
         collection.delegate = self
         collection.dataSource = self
     }
     
-    private func configConstraints() {
+   private func configConstraints() {
         NSLayoutConstraint.activate([
             collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collection.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -64,15 +66,18 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! HomeCell
         let model = viewModel.home[indexPath.row]
         cell.configCell(name: model.title ?? "", data: model.items)
+        cell.handleButton = { 
+            let controller = SeeAllVC()
+            self.navigationController?.show(controller, sender: nil)
+        }
+        cell.handleCell = {
+            let controller = MovieDetailVC()
+            self.navigationController?.show(controller, sender: nil)
+        }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         .init(width: collectionView.frame.width, height: 320)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = MovieDetailVC()
-        navigationController?.show(controller, sender: nil)
     }
 }

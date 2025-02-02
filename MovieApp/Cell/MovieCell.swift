@@ -38,23 +38,27 @@ class MovieCell: UICollectionViewCell {
     }
     
     private func configUI() {
-        [movieImage, movieName].forEach { addSubview($0) }
+        [movieImage,
+         movieName].forEach { contentView.addSubview($0) }
     }
     
     private func configConstraints() {
         NSLayoutConstraint.activate([
             movieImage.heightAnchor.constraint(equalToConstant: 220),
-            movieImage.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            movieImage.leadingAnchor.constraint(equalTo: leadingAnchor),
-            movieImage.trailingAnchor.constraint(equalTo: trailingAnchor),
+            movieImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            movieImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            movieImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
             movieName.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 8),
             movieName.leadingAnchor.constraint(equalTo: movieImage.leadingAnchor, constant: 8),
             movieName.trailingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: -8),
+            movieName.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
         ])
     }
     
-    func configCell(name: String, imageURL: String, data: [MovieResult]) {
+    func configCell(name: String,
+                    imageURL: String,
+                    data: [MovieResult]) {
         movieName.text = name
         guard let imageURL = URL(string: "\(NetworkHelper.imageURL)/\(imageURL)") else { return }
         movieImage.kf.setImage(with: imageURL,
