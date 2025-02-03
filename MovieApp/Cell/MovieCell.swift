@@ -26,6 +26,13 @@ class MovieCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var movieYear: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -39,7 +46,8 @@ class MovieCell: UICollectionViewCell {
     
     private func configUI() {
         [movieImage,
-         movieName].forEach { contentView.addSubview($0) }
+         movieName,
+         movieYear].forEach { contentView.addSubview($0) }
     }
     
     private func configConstraints() {
@@ -51,15 +59,21 @@ class MovieCell: UICollectionViewCell {
             
             movieName.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 8),
             movieName.leadingAnchor.constraint(equalTo: movieImage.leadingAnchor, constant: 8),
-            movieName.trailingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: -8),
-            movieName.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
+            movieName.trailingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: -48),
+            movieName.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
+            
+            movieYear.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 12),
+            movieYear.leadingAnchor.constraint(equalTo: movieName.trailingAnchor, constant: 8),
+            movieYear.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
         ])
     }
     
     func configCell(name: String,
+                    year: String,
                     imageURL: String,
                     data: [MovieResult]) {
         movieName.text = name
+        movieYear.text = year
         guard let imageURL = URL(string: "\(NetworkHelper.imageURL)/\(imageURL)") else { return }
         movieImage.kf.setImage(with: imageURL,
                                placeholder: UIImage(named: "placeholder"))

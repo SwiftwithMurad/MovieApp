@@ -8,5 +8,13 @@
 import Foundation
 
 class SeeAllViewModel {
+    var movie = [MovieResult]()
+    var allMovies = [MovieResult]()
+    var success: (() -> Void)?
     
+    func getData(movie: [MovieResult]) {
+        self.movie = movie
+        allMovies = movie
+        success?()
+    }
 }

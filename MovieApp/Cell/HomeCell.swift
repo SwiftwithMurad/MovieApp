@@ -91,13 +91,14 @@ extension HomeCell: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieCell
         let cellData = data[indexPath.row]
         cell.configCell(name: cellData.title ?? "",
+                        year: String(cellData.releaseDate?.prefix(4) ?? ""),
                         imageURL: cellData.posterPath ?? "",
                         data: data)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: 168, height: collectionView.frame.height)
+        .init(width: 168, height: 270)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

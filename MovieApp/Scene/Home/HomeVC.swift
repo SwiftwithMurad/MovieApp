@@ -68,6 +68,8 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         cell.configCell(name: model.title ?? "", data: model.items)
         cell.handleButton = { 
             let controller = SeeAllVC()
+            controller.title = model.title ?? ""
+            controller.viewModel.getData(movie: model.items)
             self.navigationController?.show(controller, sender: nil)
         }
         cell.handleCell = {
