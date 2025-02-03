@@ -66,15 +66,20 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! HomeCell
         let model = viewModel.home[indexPath.row]
         cell.configCell(name: model.title ?? "", data: model.items)
-        cell.handleButton = { 
+        cell.handleButton = { [weak self] in
+            guard let self = self else { return }
             let controller = SeeAllVC()
             controller.title = model.title ?? ""
             controller.viewModel.getData(movie: model.items)
-            self.navigationController?.show(controller, sender: nil)
+            navigationController?.show(controller, sender: nil)
         }
-        cell.handleCell = {
+        cell.handleCell = { [weak self] in
+            guard let self = self else { return }
             let controller = MovieDetailVC()
-            self.navigationController?.show(controller, sender: nil)
+            controller.config(imageURL: model.items[indexPath.row].posterPath ?? "",
+                              name: model.items[indexPath.row].title ?? "",
+                              movie: model.items[indexPath.row])
+            navigationController?.show(controller, sender: nil)
         }
         return cell
     }

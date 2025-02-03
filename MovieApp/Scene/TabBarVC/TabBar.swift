@@ -15,7 +15,7 @@ class TabBar: UITabBarController {
         setupViewControllers()
     }
     
-    func setupViewControllers() {
+    private func setupViewControllers() {
         tabBar.isTranslucent = false
         tabBar.backgroundColor = .systemGray5
         

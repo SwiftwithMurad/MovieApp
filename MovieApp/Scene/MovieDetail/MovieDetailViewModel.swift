@@ -8,5 +8,5 @@
 import Foundation
 
 class MovieDetailViewModel {
-    
+    var movie: MovieResult?
 }
