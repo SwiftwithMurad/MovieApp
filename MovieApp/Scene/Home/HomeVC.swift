@@ -73,15 +73,10 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
             controller.viewModel.getData(movie: model.items)
             navigationController?.show(controller, sender: nil)
         }
-        cell.handleCell = { [weak self] in
+        cell.handleCell = { [weak self] movie in
             guard let self = self else { return }
             let controller = MovieDetailVC()
-            controller.config(imageURL: model.items[indexPath.row].posterPath ?? "",
-                              name: model.items[indexPath.row].title ?? "",
-                              countryName: model.items[indexPath.row].originalLanguage?.capitalized ?? "",
-                              movieHour: "",
-                              rating: String(String(model.items[indexPath.row].voteAverage ?? 0).prefix(1)),
-                              movie: model.items[indexPath.row])
+            controller.configMovie(movie: movie)
             navigationController?.show(controller, sender: nil)
         }
         return cell

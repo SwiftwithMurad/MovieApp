@@ -10,7 +10,7 @@ import UIKit
 class HomeCell: UICollectionViewCell {
     private var data = [MovieResult]()
     var handleButton: (() -> Void)?
-    var handleCell: (() -> Void)?
+    var handleCell: ((MovieResult) -> Void)?
     
     private lazy var title: UILabel = {
         let label = UILabel()
@@ -102,6 +102,6 @@ extension HomeCell: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        handleCell?()
+        handleCell?(data[indexPath.row])
     }
 }
