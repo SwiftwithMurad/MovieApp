@@ -78,6 +78,9 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
             let controller = MovieDetailVC()
             controller.config(imageURL: model.items[indexPath.row].posterPath ?? "",
                               name: model.items[indexPath.row].title ?? "",
+                              countryName: model.items[indexPath.row].originalLanguage?.capitalized ?? "",
+                              movieHour: "",
+                              rating: String(String(model.items[indexPath.row].voteAverage ?? 0).prefix(1)),
                               movie: model.items[indexPath.row])
             navigationController?.show(controller, sender: nil)
         }
