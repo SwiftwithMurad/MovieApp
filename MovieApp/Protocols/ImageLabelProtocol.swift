@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol MovieCellProtocol {
+protocol ImageLabelProtocol {
     var titleText: String { get }
     var imageURL: String { get }
 }

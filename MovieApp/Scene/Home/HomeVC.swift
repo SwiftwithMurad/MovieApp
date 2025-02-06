@@ -84,6 +84,6 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width, height: 320)
+        .init(width: collectionView.frame.width, height: 340)
     }
 }

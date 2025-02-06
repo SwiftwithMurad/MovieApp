@@ -10,10 +10,17 @@ import UIKit
 class ActorsVC: UIViewController {
     private let viewModel = ActorsViewModel()
     
+    private lazy var search: UISearchController = {
+        let search = UISearchController(searchResultsController: nil)
+        search.obscuresBackgroundDuringPresentation = false
+        search.searchResultsUpdater = self
+        return search
+    }()
+    
     private let collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.sectionInset = .init(top: 0, left: 16, bottom: 0, right: 16)
+        layout.sectionInset = .init(top: 0, left: 16, bottom: 20, right: 16)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
@@ -29,6 +36,8 @@ class ActorsVC: UIViewController {
     
     private func configUI() {
         title = "Actors"
+        navigationItem.searchController = search
+        search.searchBar.delegate = self
         view.addSubview(collection)
         collection.delegate = self
         collection.dataSource = self
@@ -68,6 +77,35 @@ extension ActorsVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: 168, height: 220)
+        .init(width: 168, height: 250)
+    }
+}
+
+extension ActorsVC: UISearchResultsUpdating, UISearchBarDelegate {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text, !text.isEmpty else {
+            viewModel.actor = viewModel.allActors
+            collection.reloadData()
+            return
+        }
+        viewModel.actor = viewModel.allActors.filter({ $0.name?.lowercased().contains(text.lowercased()) ?? false })
+        collection.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.actor = viewModel.allActors
+        collection.reloadData()
+    }
+    
+    func willPresentSearchController(_ searchController: UISearchController) {
+        UIView.animate(withDuration: 0.3) {
+            self.collection.contentInset = UIEdgeInsets(top: 44, left: 0, bottom: 0, right: 0)
+        }
+    }
+
+    func willDismissSearchController(_ searchController: UISearchController) {
+        UIView.animate(withDuration: 0.3) {
+            self.collection.contentInset = .zero
+        }
     }
 }

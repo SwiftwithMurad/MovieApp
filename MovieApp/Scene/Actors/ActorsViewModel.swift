@@ -9,6 +9,7 @@ import Foundation
 
 class ActorsViewModel {
     var actor = [Result]()
+    var allActors = [Result]()
     let manager = NetworkManager()
     var success: (() -> Void)?
     var errorHandling: ((String) -> Void)?
@@ -22,6 +23,7 @@ class ActorsViewModel {
                 errorHandling?(errorMessage)
             } else if let data {
                 self.actor = data.results ?? []
+                self.allActors = data.results ?? []
                 success?()
             }
         }

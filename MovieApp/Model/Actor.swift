@@ -21,7 +21,7 @@ struct Actor: Codable {
 }
 
 // MARK: - Result
-struct Result: Codable, MovieCellProtocol {
+struct Result: Codable, ImageLabelProtocol {
     let adult: Bool?
     let gender, id: Int?
     let knownForDepartment: KnownForDepartment?

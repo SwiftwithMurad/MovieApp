@@ -10,7 +10,7 @@ import UIKit
 class ImageLabelCell: UICollectionViewCell {
     private var data = [MovieResult]()
     
-    private lazy var movieImage: UIImageView = {
+    private lazy var cellImage: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 16
         image.clipsToBounds = true
@@ -19,7 +19,7 @@ class ImageLabelCell: UICollectionViewCell {
         return image
     }()
     
-    private lazy var movieName: UILabel = {
+    private lazy var cellName: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .left
@@ -39,26 +39,25 @@ class ImageLabelCell: UICollectionViewCell {
     }
     
     private func configUI() {
-        [movieImage,
-         movieName].forEach { contentView.addSubview($0) }
+        [cellImage,
+         cellName].forEach { contentView.addSubview($0) }
     }
     
     private func configConstraints() {
         NSLayoutConstraint.activate([
-            movieImage.heightAnchor.constraint(equalToConstant: 220),
-            movieImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            movieImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            movieImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            cellImage.heightAnchor.constraint(equalToConstant: 220),
+            cellImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            cellImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            cellImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            movieName.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 8),
-            movieName.leadingAnchor.constraint(equalTo: movieImage.leadingAnchor),
-            movieName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            movieName.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
+            cellName.topAnchor.constraint(equalTo: cellImage.bottomAnchor, constant: 8),
+            cellName.leadingAnchor.constraint(equalTo: cellImage.leadingAnchor),
+            cellName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
     }
     
-    func config(data: MovieCellProtocol) {
-        movieName.text = data.titleText
-        movieImage.loadImage(with: data.imageURL)
+    func config(data: ImageLabelProtocol) {
+        cellName.text = data.titleText
+        cellImage.loadImage(with: data.imageURL)
     }
 }
