@@ -42,7 +42,7 @@ class SeeAllVC: UIViewController {
         search.searchBar.delegate = self
         collection.delegate = self
         collection.dataSource = self
-        collection.register(MovieCell.self, forCellWithReuseIdentifier: "cell")
+        collection.register(ImageLabelCell.self, forCellWithReuseIdentifier: "cell")
     }
     
     private func configConstraints() {
@@ -69,12 +69,9 @@ extension SeeAllVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageLabelCell
         let model = viewModel.movie[indexPath.row]
-        cell.configCell(name: model.title ?? "",
-                        year: String(model.releaseDate?.prefix(4) ?? ""),
-                        imageURL: model.posterPath ?? "",
-                        data: viewModel.movie)
+        cell.config(data: model)
         return cell
     }
     

@@ -8,7 +8,7 @@
 import Foundation
 
 class HomeViewModel {
-    let manager = NetwokManager()
+    let manager = NetworkManager()
     var home = [HomeModel]()
     var success: (() -> Void)?
     var errorHandling: ((String) -> Void)?
@@ -21,7 +21,8 @@ class HomeViewModel {
     }
     
     func getPopular() {
-        manager.getAPIRequest(endPoint: .popular, model: Movie.self) { [weak self] data, error in
+        let path = MovieEndpoint.popular.path
+        manager.getAPIRequest(path: path, model: Movie.self) { [weak self] data, error in
             guard let self = self else { return }
             if let error {
                 errorHandling?(error)
@@ -33,7 +34,8 @@ class HomeViewModel {
     }
     
     func getTopRated() {
-        manager.getAPIRequest(endPoint: .topRated, model: Movie.self) { [weak self] data, error in
+        let path = MovieEndpoint.topRated.path
+        manager.getAPIRequest(path: path, model: Movie.self) { [weak self] data, error in
             guard let self = self else { return }
             if let error {
                 errorHandling?(error)
@@ -45,7 +47,8 @@ class HomeViewModel {
     }
     
     func getNowPlaying() {
-        manager.getAPIRequest(endPoint: .nowPlaying, model: Movie.self) { [weak self] data, error in
+        let path = MovieEndpoint.nowPlaying.path
+        manager.getAPIRequest(path: path, model: Movie.self) { [weak self] data, error in
             guard let self = self else { return }
             if let error {
                 errorHandling?(error)
@@ -57,7 +60,8 @@ class HomeViewModel {
     }
     
     func getUpcoming() {
-        manager.getAPIRequest(endPoint: .upcoming, model: Movie.self) { [weak self] data, error in
+        let path = MovieEndpoint.upcoming.path
+        manager.getAPIRequest(path: path, model: Movie.self) { [weak self] data, error in
             guard let self = self else { return }
             if let error {
                 errorHandling?(error)

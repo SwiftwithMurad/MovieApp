@@ -58,7 +58,7 @@ class HomeCell: UICollectionViewCell {
     private func configUI() {
         collection.delegate = self
         collection.dataSource = self
-        collection.register(MovieCell.self, forCellWithReuseIdentifier: "cell")
+        collection.register(ImageLabelCell.self, forCellWithReuseIdentifier: "cell")
         [title, seeAllButton, collection].forEach { contentView.addSubview($0) }
     }
     
@@ -88,12 +88,9 @@ extension HomeCell: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageLabelCell
         let cellData = data[indexPath.row]
-        cell.configCell(name: cellData.title ?? "",
-                        year: String(cellData.releaseDate?.prefix(4) ?? ""),
-                        imageURL: cellData.posterPath ?? "",
-                        data: data)
+        cell.config(data: cellData)
         return cell
     }
     

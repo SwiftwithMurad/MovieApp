@@ -8,18 +8,18 @@
 import Foundation
 import Alamofire
 
-class NetwokManager {
-    func getAPIRequest<T: Codable>(endPoint: EndPoints,
+class NetworkManager {
+    func getAPIRequest<T: Codable>(path: String,
                                    model: T.Type,
                                    method: HTTPMethod = .get,
                                    params: Parameters? = nil,
                                    encoding: EncodingType = .url,
                                    completion: @escaping ((T?, String?) -> Void)) {
-        AF.request("\(NetworkHelper.baseURL)/\(endPoint.rawValue)",
+        AF.request(path,
                    method: method,
                    parameters: params,
                    encoding: encoding == .url ? URLEncoding.default: JSONEncoding.default,
-                   headers: NetworkHelper.header).responseDecodable(of: model.self) { response in
+                   headers: NetworkHelper.shared.header).responseDecodable(of: model.self) { response in
             switch response.result {
             case .success(let data):
                 completion(data, nil)

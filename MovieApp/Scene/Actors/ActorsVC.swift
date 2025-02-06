@@ -1,43 +1,41 @@
 //
-//  HomeVC.swift
+//  ActorsController.swift
 //  MovieApp
 //
-//  Created by Mac on 01.02.25.
+//  Created by Mac on 05.02.25.
 //
 
 import UIKit
 
-class HomeVC: UIViewController {
-    private let viewModel = HomeViewModel()
+class ActorsVC: UIViewController {
+    private let viewModel = ActorsViewModel()
     
-    
-    private lazy var collection : UICollectionView = {
+    private let collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.sectionInset = .init(top: 0, left: 16, bottom: 0, right: 16)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configUI()
         configConstraints()
         configViewModel()
     }
     
-    fileprivate func configUI() {
-        navigationItem.title = "Movies"
-        self.navigationController?.navigationBar.prefersLargeTitles = true        
+    private func configUI() {
+        title = "Actors"
         view.addSubview(collection)
-        collection.register(HomeCell.self, forCellWithReuseIdentifier: "cell")
         collection.delegate = self
         collection.dataSource = self
+        collection.register(ImageLabelCell.self, forCellWithReuseIdentifier: "cell")
     }
     
-   private func configConstraints() {
+    private func configConstraints() {
         NSLayoutConstraint.activate([
             collection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collection.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -47,7 +45,7 @@ class HomeVC: UIViewController {
     }
     
     private func configViewModel() {
-        viewModel.getAllData()
+        viewModel.getActors()
         viewModel.errorHandling = { error in
             print(error)
         }
@@ -58,32 +56,18 @@ class HomeVC: UIViewController {
     }
 }
 
-extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension ActorsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.home.count
+        return viewModel.actor.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! HomeCell
-        let model = viewModel.home[indexPath.row]
-        cell.configCell(name: model.title ?? "", data: model.items)
-        cell.handleButton = { [weak self] in
-            guard let self = self else { return }
-            let controller = SeeAllVC()
-            controller.title = model.title ?? ""
-            controller.viewModel.getData(movie: model.items)
-            navigationController?.show(controller, sender: nil)
-        }
-        cell.handleCell = { [weak self] movie in
-            guard let self = self else { return }
-            let controller = MovieDetailVC()
-            controller.configMovie(movie: movie)
-            navigationController?.show(controller, sender: nil)
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageLabelCell
+        cell.config(data: viewModel.actor[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width, height: 320)
+        .init(width: 168, height: 220)
     }
 }

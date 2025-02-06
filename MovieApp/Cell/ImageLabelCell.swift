@@ -6,29 +6,23 @@
 //
 
 import UIKit
-import Kingfisher
 
-class MovieCell: UICollectionViewCell {
+class ImageLabelCell: UICollectionViewCell {
     private var data = [MovieResult]()
     
     private lazy var movieImage: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 16
         image.clipsToBounds = true
+        image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
     private lazy var movieName: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 1
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var movieYear: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
+        label.numberOfLines = 0
+        label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -46,8 +40,7 @@ class MovieCell: UICollectionViewCell {
     
     private func configUI() {
         [movieImage,
-         movieName,
-         movieYear].forEach { contentView.addSubview($0) }
+         movieName].forEach { contentView.addSubview($0) }
     }
     
     private func configConstraints() {
@@ -58,25 +51,14 @@ class MovieCell: UICollectionViewCell {
             movieImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
             movieName.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 8),
-            movieName.leadingAnchor.constraint(equalTo: movieImage.leadingAnchor, constant: 8),
-            movieName.trailingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: -48),
+            movieName.leadingAnchor.constraint(equalTo: movieImage.leadingAnchor),
+            movieName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             movieName.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
-            
-            movieYear.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 12),
-            movieYear.leadingAnchor.constraint(equalTo: movieName.trailingAnchor, constant: 8),
-            movieYear.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
         ])
     }
     
-    func configCell(name: String,
-                    year: String,
-                    imageURL: String,
-                    data: [MovieResult]) {
-        movieName.text = name
-        movieYear.text = year
-        guard let imageURL = URL(string: "\(NetworkHelper.imageURL)/\(imageURL)") else { return }
-        movieImage.kf.setImage(with: imageURL,
-                               placeholder: UIImage(named: "placeholder"))
-        self.data = data
+    func config(data: MovieCellProtocol) {
+        movieName.text = data.titleText
+        movieImage.loadImage(with: data.imageURL)
     }
 }

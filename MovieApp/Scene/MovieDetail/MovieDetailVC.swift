@@ -10,6 +10,7 @@ import Kingfisher
 
 class MovieDetailVC: UIViewController {
     private let viewModel = MovieDetailViewModel()
+    let movieCell: [MovieInfoModel] = [.init(title: "Overview", movie: []), .init(title: "Similar Movies", movie: [])]
     
     private let collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -32,6 +33,7 @@ class MovieDetailVC: UIViewController {
         collection.delegate = self
         collection.dataSource = self
         collection.register(MovieDetailCell.self, forCellWithReuseIdentifier: "cell")
+        collection.register(MovieDetailHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
     }
     
     private func configConstraints() {
@@ -50,17 +52,27 @@ class MovieDetailVC: UIViewController {
 
 extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieDetailCell
-        guard let movie = viewModel.movie else { return cell }
-        cell.config(movie: movie)
+        cell.config(movie: movieCell)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width, height: collectionView.frame.height)
+        .init(width: collectionView.frame.width, height: 50)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MovieDetailHeader
+        guard let movie = viewModel.movie else { return header }
+        header.config(movie: movie)
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        .init(width: collectionView.frame.width, height: 500)
     }
 }
