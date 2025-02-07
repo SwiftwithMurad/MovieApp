@@ -79,6 +79,12 @@ extension ActorsVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         .init(width: 168, height: 250)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let controller = ActorDetailVC()
+        controller.config(data: viewModel.allActors[indexPath.row].knownFor ?? [])
+        navigationController?.show(controller, sender: nil)
+    }
 }
 
 extension ActorsVC: UISearchResultsUpdating, UISearchBarDelegate {

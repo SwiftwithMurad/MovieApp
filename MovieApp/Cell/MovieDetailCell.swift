@@ -9,12 +9,14 @@ import UIKit
 
 class MovieDetailCell: UICollectionViewCell {
     var movie = [MovieInfoModel]()
-    let movieCell: [MovieInfoModel] = [.init(title: "Overview", movie: []), .init(title: "Similar Movies", movie: [])]
+    var movieCell: [MovieInfoModel] = [.init(title: "Overview", movie: []), .init(title: "Similar Movies", movie: [])]
 
     private let collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.sectionInset = .init(top: 0, left: 60, bottom: 0, right: 32)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.showsHorizontalScrollIndicator = false
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
@@ -32,6 +34,7 @@ class MovieDetailCell: UICollectionViewCell {
     
     private func configUI() {
         contentView.addSubview(collection)
+        collection.backgroundColor = .systemGray5
         collection.delegate = self
         collection.dataSource = self
         collection.register(MovieInfoCell.self, forCellWithReuseIdentifier: "cell")
@@ -58,11 +61,18 @@ extension MovieDetailCell: UICollectionViewDelegate, UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieInfoCell
-        cell.configCell(info: movieCell[indexPath.row])
+        cell.configCell(info: movieCell[indexPath.row], isSelected: movieCell[indexPath.row].isSelected ?? false)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: 100, height: 50)
+        .init(width: 150, height: 50)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        for (index, _) in movieCell.enumerated() {
+            movieCell[indexPath.row].isSelected = index == indexPath.row
+        }
+        collection.reloadData()
     }
 }

@@ -139,13 +139,16 @@ class MovieDetailHeader: UICollectionReusableView {
             generalView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
             
             countryStack.leadingAnchor.constraint(equalTo: generalView.leadingAnchor, constant: 8),
-            countryStack.topAnchor.constraint(equalTo: generalView.topAnchor, constant: 8),
+            countryStack.topAnchor.constraint(equalTo: generalView.topAnchor, constant: 4),
+            countryStack.bottomAnchor.constraint(equalTo: generalView.bottomAnchor, constant: 0),
             
-            hourStack.topAnchor.constraint(equalTo: generalView.topAnchor, constant: 8),
+            hourStack.topAnchor.constraint(equalTo: generalView.topAnchor, constant: 4),
             hourStack.centerXAnchor.constraint(equalTo: generalView.centerXAnchor),
+            hourStack.bottomAnchor.constraint(equalTo: generalView.bottomAnchor, constant: 0),
             
             ratingStack.trailingAnchor.constraint(equalTo: generalView.trailingAnchor, constant: -8),
-            ratingStack.topAnchor.constraint(equalTo: generalView.topAnchor, constant: 8),
+            ratingStack.topAnchor.constraint(equalTo: generalView.topAnchor, constant: 4),
+            ratingStack.bottomAnchor.constraint(equalTo: generalView.bottomAnchor, constant: 0),
             
             countryImage.widthAnchor.constraint(equalToConstant: 20),
             countryImage.heightAnchor.constraint(equalToConstant: 20),
@@ -157,9 +160,8 @@ class MovieDetailHeader: UICollectionReusableView {
     }
     
     func config(movie: MovieResult) {
-        guard let imageURL = URL(string: "\(NetworkHelper.shared.imageURL)/\(movie.posterPath ?? "")") else { return }
-        movieImage.kf.setImage(with: imageURL,
-                               placeholder: UIImage(named: "placeholder"))
+        let imageURL = NetworkHelper.shared.imageURL + (movie.posterPath ?? "")
+        movieImage.loadImage(with: imageURL)
         movieName.text = movie.title
         movieCountry.text = movie.originalLanguage?.capitalized
         self.movieHour.text = movie.releaseDate ?? ""

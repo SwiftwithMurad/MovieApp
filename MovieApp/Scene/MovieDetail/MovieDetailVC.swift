@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 class MovieDetailVC: UIViewController {
     private let viewModel = MovieDetailViewModel()
@@ -28,10 +27,11 @@ class MovieDetailVC: UIViewController {
     }
     
     private func configUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemGray5
         view.addSubview(collection)
         collection.delegate = self
         collection.dataSource = self
+        collection.backgroundColor = .systemGray5
         collection.register(MovieDetailCell.self, forCellWithReuseIdentifier: "cell")
         collection.register(MovieDetailHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
     }
@@ -52,7 +52,7 @@ class MovieDetailVC: UIViewController {
 
 extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
