@@ -7,10 +7,16 @@
 
 import Foundation
  
-enum ActorEndpoint: String {
-    case actor = "person/popular"
+enum ActorEndpoint {
+    case actor
+    case actorMovies(id: Int)
     
     var path: String {
-        NetworkHelper.shared.configURL(with: self.rawValue)
+        switch self {
+        case .actor:
+            NetworkHelper.shared.configURL(with: "person/popular")
+        case .actorMovies(let id):
+            NetworkHelper.shared.configURL(with: "person/\(id)/movie_credits")
+        }
     }
 }

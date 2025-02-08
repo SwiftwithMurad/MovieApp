@@ -82,7 +82,7 @@ extension ActorsVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let controller = ActorDetailVC()
-        controller.config(data: viewModel.allActors[indexPath.row].knownFor ?? [])
+        controller.viewModel.id = indexPath.row
         navigationController?.show(controller, sender: nil)
     }
 }

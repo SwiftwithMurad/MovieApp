@@ -50,7 +50,7 @@ struct Result: Codable, ImageLabelProtocol {
 }
 
 // MARK: - KnownFor
-struct KnownFor: Codable {
+struct KnownFor: Codable, ActorDetails {
     let backdropPath: String?
     let id: Int?
     let title, originalTitle, overview, posterPath: String?
@@ -65,6 +65,22 @@ struct KnownFor: Codable {
     let voteCount: Int?
     let name, originalName, firstAirDate: String?
     let originCountry: [String]?
+    
+    var image: String {
+        posterPath ?? ""
+    }
+    
+    var movieName: String {
+        title ?? ""
+    }
+    
+    var rating: Double {
+        voteAverage ?? 0
+    }
+    
+    var overviewText: String {
+        overview ?? ""
+    }
 
     enum CodingKeys: String, CodingKey {
         case backdropPath = "backdrop_path"

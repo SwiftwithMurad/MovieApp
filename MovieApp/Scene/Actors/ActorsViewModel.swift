@@ -10,20 +10,18 @@ import Foundation
 class ActorsViewModel {
     var actor = [Result]()
     var allActors = [Result]()
-    let manager = NetworkManager()
+    let actorManager = ActorsManager()
     var success: (() -> Void)?
     var errorHandling: ((String) -> Void)?
     
     func getActors() {
-        let path = ActorEndpoint.actor.path
-        manager.getAPIRequest(path: path,
-                              model: Actor.self) { [weak self] data, errorMessage in
+        actorManager.getActors { [weak self] data, errorMessage in
             guard let self = self else { return }
             if let errorMessage {
                 errorHandling?(errorMessage)
             } else if let data {
-                self.actor = data.results ?? []
-                self.allActors = data.results ?? []
+                actor = data.results ?? []
+                allActors = data.results ?? []
                 success?()
             }
         }

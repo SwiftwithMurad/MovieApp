@@ -61,7 +61,7 @@ extension MovieDetailCell: UICollectionViewDelegate, UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieInfoCell
-        cell.configCell(info: movieCell[indexPath.row], isSelected: movieCell[indexPath.row].isSelected ?? false)
+//        cell.configCell(info: movieCell[indexPath.row])
         return cell
     }
     
@@ -70,9 +70,6 @@ extension MovieDetailCell: UICollectionViewDelegate, UICollectionViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        for (index, _) in movieCell.enumerated() {
-            movieCell[indexPath.row].isSelected = index == indexPath.row
-        }
         collection.reloadData()
     }
 }

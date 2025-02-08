@@ -10,15 +10,6 @@ import UIKit
 class ActorDetailVC: UIViewController {
     let viewModel = ActorDetailViewModel()
     
-    private let collection: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.sectionInset = .init(top: 16, left: 16, bottom: 16, right: 16)
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collection.translatesAutoresizingMaskIntoConstraints = false
-        return collection
-    }()
-    
     private let table: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -49,12 +40,15 @@ class ActorDetailVC: UIViewController {
         ])
     }
     
-    func config(data: [KnownFor]) {
-        viewModel.knownFor = data
-    }
-    
     private func configViewModel() {
-       
+        viewModel.getActorMovies()
+        viewModel.errorHandling = { error in
+            print(error)
+        }
+        viewModel.success = { [weak self] in
+            guard let self = self else { return }
+            table.reloadData()
+        }
     }
 }
 
@@ -69,16 +63,7 @@ extension ActorDetailVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        .init(width: 168, height: 250)
-//    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let controller = MovieDetailVC()
-//        navigationController?.show(controller, sender: nil)
-//    }
 }

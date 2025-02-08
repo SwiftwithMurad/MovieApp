@@ -9,6 +9,5 @@ import Foundation
 
 struct MovieInfoModel {
     let title: String?
-    var isSelected: Bool?
     let movie: [MovieResult]?
 }

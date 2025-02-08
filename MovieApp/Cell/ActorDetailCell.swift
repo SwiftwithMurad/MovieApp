@@ -37,7 +37,7 @@ class ActorDetailCell: UITableViewCell {
     
     private let overviewLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 3
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -54,7 +54,7 @@ class ActorDetailCell: UITableViewCell {
     }
     
     private func configUI() {
-        [movieImage, movieName, starImage, overviewLabel].forEach { contentView.addSubview($0) }
+        [movieImage, movieName, starImage, ratingLabel ,overviewLabel].forEach { contentView.addSubview($0) }
     }
     
     private func configConstraints() {
@@ -62,34 +62,30 @@ class ActorDetailCell: UITableViewCell {
             movieImage.topAnchor.constraint(equalTo: contentView.topAnchor),
             movieImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             movieImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            movieImage.widthAnchor.constraint(equalToConstant: 100),
-            movieImage.heightAnchor.constraint(equalToConstant: 150),
-//            movieImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            movieImage.widthAnchor.constraint(equalToConstant: 150),
+            movieImage.heightAnchor.constraint(equalToConstant: 200),
             
-            movieName.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            movieName.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 32),
             movieName.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 16),
-//            movieName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
             
-            starImage.topAnchor.constraint(equalTo: movieName.bottomAnchor, constant: 16),
-            starImage.widthAnchor.constraint(equalToConstant: 20),
-            starImage.heightAnchor.constraint(equalToConstant: 20),
+            starImage.topAnchor.constraint(equalTo: movieName.bottomAnchor, constant: 32),
+            starImage.widthAnchor.constraint(equalToConstant: 28),
+            starImage.heightAnchor.constraint(equalToConstant: 28),
             starImage.leadingAnchor.constraint(equalTo: movieName.leadingAnchor),
             
-//            ratingLabel.topAnchor.constraint(equalTo: starImage.topAnchor),
-//            ratingLabel.leadingAnchor.constraint(equalTo: starImage.leadingAnchor, constant: 8),
-//            ratingLabel.centerXAnchor.constraint(equalTo: starImage.centerXAnchor),
-//            
-            overviewLabel.topAnchor.constraint(equalTo: starImage.bottomAnchor, constant: 12),
+            ratingLabel.topAnchor.constraint(equalTo: movieName.bottomAnchor, constant: 36),
+            ratingLabel.leadingAnchor.constraint(equalTo: starImage.trailingAnchor, constant: 4),
+
             overviewLabel.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 16),
             overviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
     }
     
-    func config(data: KnownFor) {
-        movieImage.loadImage(with: data.posterPath ?? "")
-        movieName.text = data.title ?? ""
-        ratingLabel.text = "\(String(String(data.voteAverage ?? 0).prefix(3)))/10"
-        overviewLabel.text = data.overview ?? ""
+    func config(data: ActorDetails) {
+        movieImage.loadImage(with: data.image)
+        movieName.text = data.movieName
+        ratingLabel.text = "\(String(String(data.rating).prefix(3)))/10"
+        overviewLabel.text = data.overviewText
     }
 }
