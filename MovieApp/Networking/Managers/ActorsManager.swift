@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ActorsManager: ActorManagerProtocol {
+class ActorsManager: ActorManagerUseCase {
     let manager = NetworkManager()
     
     func getActors(completion: @escaping ((Actor?, String?) -> Void)) {
@@ -15,8 +15,8 @@ class ActorsManager: ActorManagerProtocol {
         manager.getAPIRequest(path: path, model: Actor.self, completion: completion)
     }
     
-    func getActorMovies(actorId: Int, completion: @escaping (([Cast]?, String?) -> Void)) {
+    func getActorMovies(actorId: Int, completion: @escaping ((ActorMovies?, String?) -> Void)) {
         let path = ActorEndpoint.actorMovies(id: actorId).path
-        manager.getAPIRequest(path: path, model: [Cast].self, completion: completion)
+        manager.getAPIRequest(path: path, model: ActorMovies.self, completion: completion)
     }
 }

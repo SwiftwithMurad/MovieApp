@@ -18,6 +18,7 @@ class ActorDetailCell: UITableViewCell {
     
     private let movieName: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -65,8 +66,9 @@ class ActorDetailCell: UITableViewCell {
             movieImage.widthAnchor.constraint(equalToConstant: 150),
             movieImage.heightAnchor.constraint(equalToConstant: 200),
             
-            movieName.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 32),
+            movieName.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
             movieName.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 16),
+            movieName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             
             starImage.topAnchor.constraint(equalTo: movieName.bottomAnchor, constant: 32),
             starImage.widthAnchor.constraint(equalToConstant: 28),
@@ -78,7 +80,7 @@ class ActorDetailCell: UITableViewCell {
 
             overviewLabel.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 16),
             overviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
     }
     

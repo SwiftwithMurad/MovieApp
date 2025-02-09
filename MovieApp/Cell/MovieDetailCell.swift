@@ -8,13 +8,28 @@
 import UIKit
 
 class MovieDetailCell: UICollectionViewCell {
-    var movie = [MovieInfoModel]()
-    var movieCell: [MovieInfoModel] = [.init(title: "Overview", movie: []), .init(title: "Similar Movies", movie: [])]
+    var movie = [MovieResult]()
+    let movieManager = MovieManager()
+    var success: (() -> Void)?
+    var id: Int? {
+        didSet {
+            getMovies()
+        }
+    }
+    
+    private let label: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.text = "Similar Movies"
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
 
     private let collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.sectionInset = .init(top: 0, left: 60, bottom: 0, right: 32)
+        layout.sectionInset = .init(top: 0, left: 16, bottom: 0, right: 16)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.showsHorizontalScrollIndicator = false
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -26,6 +41,7 @@ class MovieDetailCell: UICollectionViewCell {
         
         configUI()
         configConstraints()
+        getMovies()
     }
     
     required init?(coder: NSCoder) {
@@ -34,23 +50,36 @@ class MovieDetailCell: UICollectionViewCell {
     
     private func configUI() {
         contentView.addSubview(collection)
+        contentView.addSubview(label)
         collection.backgroundColor = .systemGray5
         collection.delegate = self
         collection.dataSource = self
-        collection.register(MovieInfoCell.self, forCellWithReuseIdentifier: "cell")
+        collection.register(ImageLabelCell.self, forCellWithReuseIdentifier: "cell")
+    }
+    
+    private func getMovies() {
+        movieManager.getSimilarMovies(id: self.id ?? 0) { [weak self] data, error in
+            guard let self = self else { return }
+            if let error {
+                print(error)
+            } else if let data {
+                movie = data.results ?? []
+                success?()
+                collection.reloadData()
+            }
+        }
     }
     
     private func configConstraints() {
         NSLayoutConstraint.activate([
-            collection.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            
+            collection.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 0),
             collection.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
             collection.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
             collection.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0)
         ])
-    }
-    
-    func config(movie: [MovieInfoModel]) {
-        self.movie = movie
     }
 }
 
@@ -60,16 +89,12 @@ extension MovieDetailCell: UICollectionViewDelegate, UICollectionViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieInfoCell
-//        cell.configCell(info: movieCell[indexPath.row])
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageLabelCell
+        cell.config(data: movie[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: 150, height: 50)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collection.reloadData()
+        .init(width: 168, height: 200)
     }
 }

@@ -10,4 +10,5 @@ import Foundation
 protocol ImageLabelProtocol {
     var titleText: String { get }
     var imageURL: String { get }
+    var overviewText: String { get }
 }

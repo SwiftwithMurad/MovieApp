@@ -8,8 +8,6 @@
 import UIKit
 
 class ImageLabelCell: UICollectionViewCell {
-    private var data = [MovieResult]()
-    
     private lazy var cellImage: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 16

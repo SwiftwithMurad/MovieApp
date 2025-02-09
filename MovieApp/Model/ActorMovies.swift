@@ -14,7 +14,7 @@ struct ActorMovies: Codable {
 }
 
 // MARK: - Cast
-struct Cast: Codable {
+struct Cast: Codable, ActorDetails {
     let adult: Bool?
     let backdropPath: String?
     let genreIDS: [Int]?
@@ -31,6 +31,22 @@ struct Cast: Codable {
     let order: Int?
     let department, job: String?
 
+    var image: String {
+        posterPath ?? ""
+    }
+    
+    var movieName: String {
+        originalTitle ?? ""
+    }
+    
+    var rating: Double {
+        voteAverage ?? 0
+    }
+    
+    var overviewText: String {
+        overview ?? ""
+    }
+    
     enum CodingKeys: String, CodingKey {
         case adult
         case backdropPath = "backdrop_path"

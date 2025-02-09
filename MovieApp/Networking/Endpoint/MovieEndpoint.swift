@@ -12,6 +12,7 @@ enum MovieEndpoint: String {
     case popular = "movie/popular"
     case topRated = "movie/top_rated"
     case upcoming = "movie/upcoming"
+    case similar = "/similar"
     
     var path: String {
         NetworkHelper.shared.configURL(with: self.rawValue)

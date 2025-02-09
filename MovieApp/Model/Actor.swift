@@ -37,6 +37,10 @@ struct Result: Codable, ImageLabelProtocol {
     var imageURL: String {
         profilePath ?? ""
     }
+    
+    var overviewText: String {
+        ""
+    }
 
     enum CodingKeys: String, CodingKey {
         case adult, gender, id

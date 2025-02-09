@@ -9,7 +9,7 @@ import Foundation
 
 class HomeViewModel {
     let manager = NetworkManager()
-    let homeManager = HomeManager()
+    let homeManager = MovieManager()
     var home = [HomeModel]()
     var success: (() -> Void)?
     var errorHandling: ((String) -> Void)?

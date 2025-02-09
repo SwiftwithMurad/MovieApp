@@ -20,7 +20,7 @@ class ActorDetailViewModel {
             if let errorMessage {
                 errorHandling?(errorMessage)
             } else if let data {
-                knownFor = data
+                knownFor = data.cast ?? []
                 success?()
             }
         }

@@ -47,6 +47,10 @@ struct MovieResult: Codable, ImageLabelProtocol {
     var imageURL: String {
         posterPath ?? ""
     }
+    
+    var overviewText: String {
+        overview ?? ""
+    }
 
     enum CodingKeys: String, CodingKey {
         case adult

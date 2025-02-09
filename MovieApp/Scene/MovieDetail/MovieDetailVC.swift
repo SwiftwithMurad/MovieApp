@@ -9,7 +9,6 @@ import UIKit
 
 class MovieDetailVC: UIViewController {
     private let viewModel = MovieDetailViewModel()
-    let movieCell: [MovieInfoModel] = [.init(title: "Overview", movie: []), .init(title: "Similar Movies", movie: [])]
     
     private let collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -57,12 +56,16 @@ extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieDetailCell
-        cell.config(movie: movieCell)
+        cell.success = { [weak self] in
+            guard let self = self else { return }
+            collection.reloadData()
+        }
+        cell.id = viewModel.movie?.id ?? 0
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width, height: 50)
+        .init(width: collectionView.frame.width, height: collectionView.frame.height / 1.9)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -73,6 +76,6 @@ extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        .init(width: collectionView.frame.width, height: 500)
+        .init(width: collectionView.frame.width, height: 450)
     }
 }

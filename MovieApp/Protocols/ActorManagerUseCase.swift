@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ActorManagerProtocol {
+protocol ActorManagerUseCase {
     func getActors(completion: @escaping ((Actor?, String?) -> Void))
-    func getActorMovies(actorId: Int, completion: @escaping (([Cast]?, String?) -> Void)) 
+    func getActorMovies(actorId: Int, completion: @escaping ((ActorMovies?, String?) -> Void)) 
 }
