@@ -20,7 +20,7 @@ class HomeViewModel {
         getNowPlaying()
         getUpcoming()
     }
-
+    
     func getPopular() {
         let path = MovieEndpoint.popular.path
         manager.getAPIRequest(path: path, model: Movie.self) { [weak self] data, error in
@@ -72,16 +72,4 @@ class HomeViewModel {
             }
         }
     }
-    
-//    func getManager() {
-//        homeManager.getMovies(endPoint: <#MovieEndpoint#>) { [weak self] data, errorMessage in
-//            guard let self = self else { return }
-//            if let errorMessage {
-//                errorHandling?(errorMessage)
-//            } else if let data {
-//                home = data
-//                success?()
-//            }
-//        }
-//    }
 }

@@ -73,14 +73,15 @@ class SearchVC: UIViewController {
             searchView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             searchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
-            searchField.centerYAnchor.constraint(equalTo: searchView.centerYAnchor),
-            searchField.leadingAnchor.constraint(equalTo: searchView.leadingAnchor, constant: 48),
-            searchField.widthAnchor.constraint(equalToConstant: 270),
+            searchImage.widthAnchor.constraint(equalToConstant: 25),
+            searchImage.heightAnchor.constraint(equalToConstant: 25),
+            searchImage.centerYAnchor.constraint(equalTo: searchView.centerYAnchor),
+            searchImage.leadingAnchor.constraint(equalTo: searchView.leadingAnchor, constant: 20),
             
-            searchImage.widthAnchor.constraint(equalToConstant: 17),
-            searchImage.heightAnchor.constraint(equalToConstant: 17),
-            searchImage.centerYAnchor.constraint(equalTo: searchField.centerYAnchor),
-            searchImage.leadingAnchor.constraint(equalTo: searchField.trailingAnchor, constant: 12),
+            searchField.centerYAnchor.constraint(equalTo: searchImage.centerYAnchor),
+            searchField.centerYAnchor.constraint(equalTo: searchImage.centerYAnchor),
+            searchField.leadingAnchor.constraint(equalTo: searchImage.leadingAnchor, constant: 48),
+            searchField.widthAnchor.constraint(equalToConstant: 270),
             
             collection.topAnchor.constraint(equalTo: searchView.bottomAnchor, constant: 32),
             collection.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
@@ -90,13 +91,18 @@ class SearchVC: UIViewController {
     }
     
     @objc func fieldConfiguration() {
-//        viewModel.configField(search: searchField.text ?? "") {
-//            self.homeCollection.reloadData()
-//        }
+        viewModel.getAllMovies(name: searchField.text ?? "")
     }
     
     private func configViewModel() {
-    
+        viewModel.errorHandling = { [weak self] error in
+            guard let self = self else { return }
+            print(error)
+        }
+        viewModel.success = { [weak self] in
+            guard let self = self else { return }
+            collection.reloadData()
+        }
     }
 }
 

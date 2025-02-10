@@ -66,4 +66,12 @@ extension ActorDetailVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let controller = MovieDetailVC()
+        let cast = viewModel.knownFor[indexPath.row]
+        let movieResult = MovieResult(movie: cast)
+        controller.viewModel.config(movie: movieResult)
+        navigationController?.show(controller, sender: nil)
+    }
 }

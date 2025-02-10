@@ -9,4 +9,8 @@ import Foundation
 
 class MovieDetailViewModel {
     var movie: MovieResult?
+    
+    func config(movie: MovieResult) {
+        self.movie = movie
+    }
 }

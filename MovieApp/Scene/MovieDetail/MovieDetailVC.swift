@@ -8,7 +8,7 @@
 import UIKit
 
 class MovieDetailVC: UIViewController {
-    private let viewModel = MovieDetailViewModel()
+    let viewModel = MovieDetailViewModel()
     
     private let collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -56,16 +56,21 @@ extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieDetailCell
-        cell.success = { [weak self] in
-            guard let self = self else { return }
-            collection.reloadData()
-        }
+//        cell.success = { [weak self] in
+//            guard let self = self else { return }
+//            collection.reloadData()
+//        }
+//        cell.errorHandling = { [weak self] error in
+//            guard let self = self else { return }
+//            print(error)
+//        }
         cell.id = viewModel.movie?.id ?? 0
+        collection.reloadData()
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width, height: collectionView.frame.height / 1.9)
+        .init(width: collectionView.frame.width, height: collectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

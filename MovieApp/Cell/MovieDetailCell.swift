@@ -10,7 +10,8 @@ import UIKit
 class MovieDetailCell: UICollectionViewCell {
     var movie = [MovieResult]()
     let movieManager = MovieManager()
-    var success: (() -> Void)?
+//    var success: (() -> Void)?
+//    var errorHandling: ((String) -> Void)?
     var id: Int? {
         didSet {
             getMovies()
@@ -61,10 +62,11 @@ class MovieDetailCell: UICollectionViewCell {
         movieManager.getSimilarMovies(id: self.id ?? 0) { [weak self] data, error in
             guard let self = self else { return }
             if let error {
+//                errorHandling?(error)
                 print(error)
             } else if let data {
                 movie = data.results ?? []
-                success?()
+//                success?()
                 collection.reloadData()
             }
         }
@@ -76,9 +78,9 @@ class MovieDetailCell: UICollectionViewCell {
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
             collection.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 0),
-            collection.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
-            collection.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
-            collection.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0)
+            collection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+            collection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
+            collection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
         ])
     }
 }
@@ -95,6 +97,6 @@ extension MovieDetailCell: UICollectionViewDelegate, UICollectionViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: 168, height: 200)
+        .init(width: 168, height: collectionView.frame.height)
     }
 }

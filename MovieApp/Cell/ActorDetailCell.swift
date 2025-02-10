@@ -60,7 +60,7 @@ class ActorDetailCell: UITableViewCell {
     
     private func configConstraints() {
         NSLayoutConstraint.activate([
-            movieImage.topAnchor.constraint(equalTo: contentView.topAnchor),
+            movieImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             movieImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             movieImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             movieImage.widthAnchor.constraint(equalToConstant: 150),
@@ -70,12 +70,12 @@ class ActorDetailCell: UITableViewCell {
             movieName.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 16),
             movieName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             
-            starImage.topAnchor.constraint(equalTo: movieName.bottomAnchor, constant: 32),
+            starImage.topAnchor.constraint(equalTo: movieName.bottomAnchor, constant: 24),
             starImage.widthAnchor.constraint(equalToConstant: 28),
             starImage.heightAnchor.constraint(equalToConstant: 28),
             starImage.leadingAnchor.constraint(equalTo: movieName.leadingAnchor),
             
-            ratingLabel.topAnchor.constraint(equalTo: movieName.bottomAnchor, constant: 36),
+            ratingLabel.topAnchor.constraint(equalTo: movieName.bottomAnchor, constant: 28),
             ratingLabel.leadingAnchor.constraint(equalTo: starImage.trailingAnchor, constant: 4),
 
             overviewLabel.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 16),

@@ -19,4 +19,9 @@ class ActorsManager: ActorManagerUseCase {
         let path = ActorEndpoint.actorMovies(id: actorId).path
         manager.getAPIRequest(path: path, model: ActorMovies.self, completion: completion)
     }
+    
+    func getMovies(movieId: Int, completion: @escaping ((ActorMovies?, String?) -> Void)) {
+        let path = ActorEndpoint.actorMovieDetail(id: movieId).path
+        manager.getAPIRequest(path: path, model: ActorMovies.self, completion: completion)
+    }
 }

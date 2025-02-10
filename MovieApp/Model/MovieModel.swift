@@ -28,17 +28,17 @@ struct Dates: Codable {
 
 // MARK: - Result
 struct MovieResult: Codable, ImageLabelProtocol {
-    let adult: Bool?
-    let backdropPath: String?
-    let genreIDS: [Int]?
-    let id: Int?
-    let originalLanguage: String?
-    let originalTitle, overview: String?
-    let popularity: Double?
-    let posterPath, releaseDate, title: String?
-    let video: Bool?
-    let voteAverage: Double?
-    let voteCount: Int?
+    var adult: Bool?
+    var backdropPath: String?
+    var genreIDS: [Int]?
+    var id: Int?
+    var originalLanguage: String?
+    var originalTitle, overview: String?
+    var popularity: Double?
+    var posterPath, releaseDate, title: String?
+    var video: Bool?
+    var voteAverage: Double?
+    var voteCount: Int?
     
     var titleText: String {
         "\(originalTitle ?? "") (\(releaseDate?.prefix(4) ?? ""))"
