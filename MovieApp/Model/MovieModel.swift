@@ -51,6 +51,18 @@ struct MovieResult: Codable, ImageLabelProtocol {
     var overviewText: String {
         overview ?? ""
     }
+    
+    var country: String {
+        originalLanguage?.capitalized ?? ""
+    }
+    
+    var hour: String {
+        releaseDate ?? ""
+    }
+    
+    var rating: String {
+        "\(String(String(voteAverage ?? 0).prefix(3)))/10"
+    }
 
     enum CodingKeys: String, CodingKey {
         case adult

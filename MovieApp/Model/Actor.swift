@@ -41,6 +41,18 @@ struct Result: Codable, ImageLabelProtocol {
     var overviewText: String {
         ""
     }
+    
+    var country: String {
+        ""
+    }
+    
+    var hour: String {
+        ""
+    }
+    
+    var rating: String {
+        ""
+    }
 
     enum CodingKeys: String, CodingKey {
         case adult, gender, id

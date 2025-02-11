@@ -35,12 +35,12 @@ class SearchVC: UIViewController {
         image.tintColor = .black
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
-    }()
+     }()
 
     private let collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.sectionInset = .init(top: 0, left: 16, bottom: 0, right: 16)
+        layout.sectionInset = .init(top: 32, left: 16, bottom: 32, right: 16)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.backgroundColor = .systemGray5
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -95,8 +95,7 @@ class SearchVC: UIViewController {
     }
     
     private func configViewModel() {
-        viewModel.errorHandling = { [weak self] error in
-            guard let self = self else { return }
+        viewModel.errorHandling = { error in
             print(error)
         }
         viewModel.success = { [weak self] in
@@ -120,5 +119,11 @@ extension SearchVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         .init(width: 168, height: 280)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let controller = MovieDetailVC()
+        controller.viewModel.config(movie: viewModel.movie[indexPath.row])
+        navigationController?.show(controller, sender: nil)
     }
 }

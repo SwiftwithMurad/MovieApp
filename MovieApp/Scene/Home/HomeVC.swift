@@ -10,7 +10,6 @@ import UIKit
 class HomeVC: UIViewController {
     private let viewModel = HomeViewModel()
     
-    
     private lazy var collection : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -18,7 +17,6 @@ class HomeVC: UIViewController {
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,8 +46,12 @@ class HomeVC: UIViewController {
     
     private func configViewModel() {
         viewModel.getAllData()
-        viewModel.errorHandling = { error in
-            print(error)
+        viewModel.errorHandling = { [weak self] error in
+            guard let self = self else { return }
+            let alertController = UIAlertController(title: "Error", message: "Data couldn't be read", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Ok", style: .cancel)
+            alertController.addAction(action)
+            present(alertController, animated: true)
         }
         viewModel.success = { [weak self] in
             guard let self = self else { return }

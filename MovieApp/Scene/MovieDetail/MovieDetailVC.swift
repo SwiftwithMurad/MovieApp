@@ -56,31 +56,34 @@ extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieDetailCell
-//        cell.success = { [weak self] in
-//            guard let self = self else { return }
-//            collection.reloadData()
-//        }
-//        cell.errorHandling = { [weak self] error in
-//            guard let self = self else { return }
-//            print(error)
-//        }
         cell.id = viewModel.movie?.id ?? 0
-        collection.reloadData()
+        cell.success = { [weak self] in
+            guard let self = self else { return }
+            collection.reloadData()
+        }
+        cell.errorHandling = { [weak self] error in
+            guard let self = self else { return }
+            let alertController = UIAlertController(title: "Error", message: "Data couldn't be read", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Ok", style: .cancel)
+            alertController.addAction(action)
+            present(alertController, animated: true)
+        }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width, height: collectionView.frame.height)
+        .init(width: collectionView.frame.width, height: 350)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MovieDetailHeader
         guard let movie = viewModel.movie else { return header }
-        header.config(movie: movie)
+//        header.config(movie: movie)
+        header.configHeader(movie: movie)
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        .init(width: collectionView.frame.width, height: 450)
+        .init(width: collectionView.frame.width, height: 600)
     }
 }

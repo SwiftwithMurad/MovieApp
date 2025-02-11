@@ -10,8 +10,8 @@ import UIKit
 class MovieDetailCell: UICollectionViewCell {
     var movie = [MovieResult]()
     let movieManager = MovieManager()
-//    var success: (() -> Void)?
-//    var errorHandling: ((String) -> Void)?
+    var success: (() -> Void)?
+    var errorHandling: ((String) -> Void)?
     var id: Int? {
         didSet {
             getMovies()
@@ -50,8 +50,7 @@ class MovieDetailCell: UICollectionViewCell {
     }
     
     private func configUI() {
-        contentView.addSubview(collection)
-        contentView.addSubview(label)
+        [collection, label].forEach { contentView.addSubview($0) }
         collection.backgroundColor = .systemGray5
         collection.delegate = self
         collection.dataSource = self
@@ -62,11 +61,12 @@ class MovieDetailCell: UICollectionViewCell {
         movieManager.getSimilarMovies(id: self.id ?? 0) { [weak self] data, error in
             guard let self = self else { return }
             if let error {
-//                errorHandling?(error)
+                errorHandling?(error)
                 print(error)
             } else if let data {
                 movie = data.results ?? []
-//                success?()
+//                infoModel.append(.init(title: "Similar Movies", image: nil, overview: nil, movie: data.results))
+                success?()
                 collection.reloadData()
             }
         }
@@ -74,14 +74,13 @@ class MovieDetailCell: UICollectionViewCell {
     
     private func configConstraints() {
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
             collection.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 0),
             collection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
             collection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
-            collection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
-        ])
+            collection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),        ])
     }
 }
 
@@ -92,6 +91,7 @@ extension MovieDetailCell: UICollectionViewDelegate, UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageLabelCell
+//        guard let movies = infoModel[indexPath.row].movie else { return cell }
         cell.config(data: movie[indexPath.row])
         return cell
     }

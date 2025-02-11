@@ -23,7 +23,6 @@ class SearchViewModel {
                 movie = data.results ?? []
                 success?()
             }
-            
         }
     }
 }

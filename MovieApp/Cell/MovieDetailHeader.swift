@@ -21,6 +21,7 @@ class MovieDetailHeader: UICollectionReusableView {
     private let movieName: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .medium)
+        label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -95,6 +96,23 @@ class MovieDetailHeader: UICollectionReusableView {
         return image
     }()
     
+    private let overviewLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.text = "Overview"
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let overviewText: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 17, weight: .medium)
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -118,7 +136,9 @@ class MovieDetailHeader: UICollectionReusableView {
          ratingStack].forEach { generalView.addSubview($0) }
         [movieImage,
          movieName,
-         generalView].forEach { addSubview($0) }
+         generalView,
+         overviewLabel,
+         overviewText].forEach { addSubview($0) }
     }
     
     private func configConstraints() {
@@ -128,15 +148,19 @@ class MovieDetailHeader: UICollectionReusableView {
             movieImage.topAnchor.constraint(equalTo: topAnchor, constant: 0),
             movieImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
             movieImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
+            //            movieImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             movieName.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 24),
             movieName.leadingAnchor.constraint(equalTo: movieImage.leadingAnchor),
+            movieName.trailingAnchor.constraint(equalTo: movieImage.trailingAnchor),
             
-            generalView.widthAnchor.constraint(equalToConstant: 192),
+            generalView.widthAnchor.constraint(equalToConstant: 300),
             generalView.heightAnchor.constraint(equalToConstant: 24),
             generalView.topAnchor.constraint(equalTo: movieName.bottomAnchor, constant: 16),
-            generalView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            generalView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
+            //            generalView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            //            generalView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
+            generalView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            //            generalView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
             
             countryStack.leadingAnchor.constraint(equalTo: generalView.leadingAnchor, constant: 8),
             countryStack.topAnchor.constraint(equalTo: generalView.topAnchor, constant: 4),
@@ -155,7 +179,15 @@ class MovieDetailHeader: UICollectionReusableView {
             hourImage.widthAnchor.constraint(equalToConstant: 20),
             hourImage.heightAnchor.constraint(equalToConstant: 20),
             starImage.widthAnchor.constraint(equalToConstant: 20),
-            starImage.heightAnchor.constraint(equalToConstant: 20)
+            starImage.heightAnchor.constraint(equalToConstant: 20),
+            
+            overviewLabel.topAnchor.constraint(equalTo: generalView.bottomAnchor, constant: 16),
+            overviewLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            
+            overviewText.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 8),
+            overviewText.leadingAnchor.constraint(equalTo: overviewLabel.leadingAnchor),
+            overviewText.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            overviewText.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
         ])
     }
     
@@ -166,5 +198,16 @@ class MovieDetailHeader: UICollectionReusableView {
         movieCountry.text = movie.originalLanguage?.capitalized
         self.movieHour.text = movie.releaseDate ?? ""
         movieRating.text = "\(String(String(movie.voteAverage ?? 0).prefix(3)))/10"
+        overviewText.text = movie.overview ?? ""
         self.movie = movie
-    }}
+    }
+    
+    func configHeader(movie: ImageLabelProtocol) {
+        movieImage.loadImage(with: movie.imageURL)
+        movieName.text = movie.titleText
+        overviewText.text = movie.overviewText
+        movieCountry.text = movie.country
+        movieHour.text = movie.hour
+        movieRating.text = movie.rating
+    }
+}
