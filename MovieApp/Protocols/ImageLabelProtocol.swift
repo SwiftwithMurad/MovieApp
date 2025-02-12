@@ -14,4 +14,5 @@ protocol ImageLabelProtocol {
     var country: String { get }
     var hour: String { get }
     var rating: String { get }
+    var movieName: String { get }
 }

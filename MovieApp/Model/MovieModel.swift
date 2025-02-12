@@ -44,6 +44,10 @@ struct MovieResult: Codable, ImageLabelProtocol {
         "\(originalTitle ?? "") (\(releaseDate?.prefix(4) ?? ""))"
     }
     
+    var movieName: String {
+        originalTitle ?? ""
+    }
+    
     var imageURL: String {
         posterPath ?? ""
     }

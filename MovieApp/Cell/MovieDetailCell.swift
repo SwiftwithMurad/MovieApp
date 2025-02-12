@@ -65,7 +65,6 @@ class MovieDetailCell: UICollectionViewCell {
                 print(error)
             } else if let data {
                 movie = data.results ?? []
-//                infoModel.append(.init(title: "Similar Movies", image: nil, overview: nil, movie: data.results))
                 success?()
                 collection.reloadData()
             }
@@ -80,7 +79,8 @@ class MovieDetailCell: UICollectionViewCell {
             collection.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 0),
             collection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
             collection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
-            collection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),        ])
+            collection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
+        ])
     }
 }
 
@@ -91,7 +91,6 @@ extension MovieDetailCell: UICollectionViewDelegate, UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageLabelCell
-//        guard let movies = infoModel[indexPath.row].movie else { return cell }
         cell.config(data: movie[indexPath.row])
         return cell
     }

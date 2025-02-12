@@ -38,6 +38,10 @@ struct Result: Codable, ImageLabelProtocol {
         profilePath ?? ""
     }
     
+    var movieName: String {
+        name ?? ""
+    }
+    
     var overviewText: String {
         ""
     }

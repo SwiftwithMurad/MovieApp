@@ -204,7 +204,7 @@ class MovieDetailHeader: UICollectionReusableView {
     
     func configHeader(movie: ImageLabelProtocol) {
         movieImage.loadImage(with: movie.imageURL)
-        movieName.text = movie.titleText
+        movieName.text = movie.movieName
         overviewText.text = movie.overviewText
         movieCountry.text = movie.country
         movieHour.text = movie.hour
