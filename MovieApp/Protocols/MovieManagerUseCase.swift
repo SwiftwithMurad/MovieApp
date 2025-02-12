@@ -8,6 +8,6 @@
 import Foundation
 
 protocol MovieManagerUseCase {
-    func getMovies(endPoint: String, completion: @escaping ((MovieResult?, String?) -> Void))
+    func getAllMovies(name: String, completion: @escaping ((Movie?, String?) -> Void))
     func getSimilarMovies(id: Int, completion: @escaping ((Movie?, String?) -> Void))
 }

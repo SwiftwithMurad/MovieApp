@@ -12,63 +12,19 @@ class HomeViewModel {
     let homeManager = MovieManager()
     var home = [HomeModel]()
     var success: (() -> Void)?
-    var errorHandling: ((String) -> Void)?
+    var errorHandling: ((String) -> Void)?    
+    let movieEndpoints = ["popular", "top_rated", "now_playing", "upcoming"]
     
-    func getAllData() {
-        getPopular()
-        getTopRated()
-        getNowPlaying()
-        getUpcoming()
-    }
-    
-    func getPopular() {
-        let path = MovieEndpoint.popular.path
-        manager.getAPIRequest(path: path, model: Movie.self) { [weak self] data, error in
-            guard let self = self else { return }
-            if let error {
-                errorHandling?(error)
-            } else if let data {
-                home.append(.init(title: "Popular", items: data.results ?? []))
-                success?()
-            }
-        }
-    }
-    
-    func getTopRated() {
-        let path = MovieEndpoint.topRated.path
-        manager.getAPIRequest(path: path, model: Movie.self) { [weak self] data, error in
-            guard let self = self else { return }
-            if let error {
-                errorHandling?(error)
-            } else if let data {
-                home.append(.init(title: "Top Rated", items: data.results ?? []))
-                success?()
-            }
-        }
-    }
-    
-    func getNowPlaying() {
-        let path = MovieEndpoint.nowPlaying.path
-        manager.getAPIRequest(path: path, model: Movie.self) { [weak self] data, error in
-            guard let self = self else { return }
-            if let error {
-                errorHandling?(error)
-            } else if let data {
-                home.append(.init(title: "Now Playing", items: data.results ?? []))
-                success?()
-            }
-        }
-    }
-    
-    func getUpcoming() {
-        let path = MovieEndpoint.upcoming.path
-        manager.getAPIRequest(path: path, model: Movie.self) { [weak self] data, error in
-            guard let self = self else { return }
-            if let error {
-                errorHandling?(error)
-            } else if let data {
-                home.append(.init(title: "Upcoming", items: data.results ?? []))
-                success?()
+    func getAllMovies() {
+        for name in movieEndpoints {
+            homeManager.getAllMovies(name: name) { [weak self] data, error in
+                guard let self = self else { return }
+                if let error {
+                    errorHandling?(error)
+                } else if let data {
+                    home.append(.init(title: name, items: data.results ?? []))
+                    success?()
+                }
             }
         }
     }

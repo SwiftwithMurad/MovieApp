@@ -17,4 +17,24 @@ enum MovieEndpoint: String {
     var path: String {
         NetworkHelper.shared.configURL(with: self.rawValue)
     }
+    
+//    var hey: String {
+//        for endpoint in self.rawValue {
+//            switch self.rawValue {
+//            case endpoint:
+//                NetworkHelper.shared.configURL(with: endpoint)
+//            }
+//        }
+//    }
+}
+
+enum Moviepoint {
+    case allMovies(name: String)
+    
+    var path: String {
+        switch self {
+        case .allMovies(name: let name):
+            NetworkHelper.shared.configURL(with: "movie/\(name)")
+        }
+    }
 }

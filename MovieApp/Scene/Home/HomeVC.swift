@@ -45,7 +45,7 @@ class HomeVC: UIViewController {
     }
     
     private func configViewModel() {
-        viewModel.getAllData()
+        viewModel.getAllMovies()
         viewModel.errorHandling = { [weak self] error in
             guard let self = self else { return }
             let alertController = UIAlertController(title: "Error", message: "Data couldn't be read", preferredStyle: .alert)
