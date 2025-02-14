@@ -184,22 +184,11 @@ class MovieDetailHeader: UICollectionReusableView {
             overviewLabel.topAnchor.constraint(equalTo: generalView.bottomAnchor, constant: 16),
             overviewLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             
-            overviewText.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 8),
+            overviewText.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 4),
             overviewText.leadingAnchor.constraint(equalTo: overviewLabel.leadingAnchor),
             overviewText.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             overviewText.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
         ])
-    }
-    
-    func config(movie: MovieResult) {
-        let imageURL = NetworkHelper.shared.imageURL + (movie.posterPath ?? "")
-        movieImage.loadImage(with: imageURL)
-        movieName.text = movie.title
-        movieCountry.text = movie.originalLanguage?.capitalized
-        self.movieHour.text = movie.releaseDate ?? ""
-        movieRating.text = "\(String(String(movie.voteAverage ?? 0).prefix(3)))/10"
-        overviewText.text = movie.overview ?? ""
-        self.movie = movie
     }
     
     func configHeader(movie: ImageLabelProtocol) {

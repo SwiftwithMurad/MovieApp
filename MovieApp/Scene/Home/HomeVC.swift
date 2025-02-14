@@ -10,7 +10,7 @@ import UIKit
 class HomeVC: UIViewController {
     private let viewModel = HomeViewModel()
     
-    private lazy var collection : UICollectionView = {
+    private lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)

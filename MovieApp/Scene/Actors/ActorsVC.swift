@@ -17,6 +17,12 @@ class ActorsVC: UIViewController {
         return search
     }()
     
+    private lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        
+        return control
+    }()
+    
     private let collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
