@@ -72,7 +72,6 @@ extension ActorDetailVC: UITableViewDelegate, UITableViewDataSource {
         let cast = viewModel.knownFor[indexPath.row]
         let movieResult = MovieResult(movie: cast)
         controller.viewModel.config(movie: movieResult)
-        
         navigationController?.show(controller, sender: nil)
     }
 }

@@ -8,14 +8,14 @@
 import Foundation
  
 enum ActorEndpoint {
-    case actor
+    case actor(page: Int)
     case actorMovies(id: Int)
     case actorMovieDetail(id: Int)
     
     var path: String {
         switch self {
-        case .actor:
-            NetworkHelper.shared.configURL(with: "person/popular")
+        case .actor(let page):
+            NetworkHelper.shared.configURL(with: "person/popular?page=\(page)")
         case .actorMovies(let id):
             NetworkHelper.shared.configURL(with: "person/\(id)/movie_credits")
         case .actorMovieDetail(let id):

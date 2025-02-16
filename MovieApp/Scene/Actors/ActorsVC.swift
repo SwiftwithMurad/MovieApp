@@ -17,16 +17,15 @@ class ActorsVC: UIViewController {
         return search
     }()
     
-    private lazy var refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        
-        return control
+    private let refreshControl: UIRefreshControl = {
+        let refresh = UIRefreshControl()
+        return refresh
     }()
     
     private let collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.sectionInset = .init(top: 0, left: 16, bottom: 20, right: 16)
+        layout.sectionInset = .init(top: 0, left: 16, bottom: 80, right: 16)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
@@ -45,6 +44,8 @@ class ActorsVC: UIViewController {
         navigationItem.searchController = search
         search.searchBar.delegate = self
         view.addSubview(collection)
+        collection.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshActors), for: .valueChanged)
         collection.delegate = self
         collection.dataSource = self
         collection.register(ImageLabelCell.self, forCellWithReuseIdentifier: "cell")
@@ -61,24 +62,35 @@ class ActorsVC: UIViewController {
     
     private func configViewModel() {
         viewModel.getActors()
-        viewModel.errorHandling = { error in
-            print(error)
+        viewModel.errorHandling = { [weak self] error in
+            guard let self = self else { return }
+            let alertController = UIAlertController(title: "Error", message: "Data couldn't be read", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Ok", style: .cancel)
+            alertController.addAction(action)
+            present(alertController, animated: true)
+            refreshControl.endRefreshing()
         }
         viewModel.success = { [weak self] in
             guard let self = self else { return }
             collection.reloadData()
+            refreshControl.endRefreshing()
         }
+    }
+    
+    @objc func refreshActors() {
+        viewModel.reset()
+        viewModel.getActors()
     }
 }
 
 extension ActorsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.actor.count
+        return viewModel.allActors.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageLabelCell
-        cell.config(data: viewModel.actor[indexPath.row])
+        cell.config(data: viewModel.allActors[indexPath.row])
         return cell
     }
     
@@ -92,21 +104,25 @@ extension ActorsVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
         controller.title = viewModel.allActors[indexPath.row].name
         navigationController?.show(controller, sender: nil)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        viewModel.paginate(page: indexPath.row)
+    }
 }
 
 extension ActorsVC: UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text, !text.isEmpty else {
-            viewModel.actor = viewModel.allActors
+            viewModel.allActors = viewModel.actor
             collection.reloadData()
             return
         }
-        viewModel.actor = viewModel.allActors.filter({ $0.name?.lowercased().contains(text.lowercased()) ?? false })
+        viewModel.allActors = viewModel.actor.filter({ $0.name?.lowercased().contains(text.lowercased()) ?? false })
         collection.reloadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.actor = viewModel.allActors
+        viewModel.allActors = viewModel.actor
         collection.reloadData()
     }
     

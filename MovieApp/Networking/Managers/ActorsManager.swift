@@ -10,8 +10,8 @@ import Foundation
 class ActorsManager: ActorManagerUseCase {
     let manager = NetworkManager()
     
-    func getActors(completion: @escaping ((Actor?, String?) -> Void)) {
-        let path = ActorEndpoint.actor.path
+    func getActors(page: Int, completion: @escaping ((Actor?, String?) -> Void)) {
+        let path = ActorEndpoint.actor(page: page).path
         manager.getAPIRequest(path: path, model: Actor.self, completion: completion)
     }
     

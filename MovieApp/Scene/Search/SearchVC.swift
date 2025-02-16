@@ -36,6 +36,11 @@ class SearchVC: UIViewController {
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
      }()
+    
+    private let refreshControl: UIRefreshControl = {
+        let refresh = UIRefreshControl()
+        return refresh
+    }()
 
     private let collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -60,6 +65,8 @@ class SearchVC: UIViewController {
         view.backgroundColor = .systemGray5
         [searchView, collection].forEach { view.addSubview($0) }
         [searchField, searchImage].forEach { searchView.addSubview($0) }
+        collection.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshSearch), for: .valueChanged)
         collection.delegate = self
         collection.dataSource = self
         collection.register(ImageLabelCell.self, forCellWithReuseIdentifier: "cell")
@@ -94,13 +101,21 @@ class SearchVC: UIViewController {
         viewModel.getAllMovies(name: searchField.text ?? "")
     }
     
+    @objc func refreshSearch() {
+        viewModel.resetMovies()
+        viewModel.getAllMovies(name: searchField.text ?? "")
+    }
+    
     private func configViewModel() {
-        viewModel.errorHandling = { error in
+        viewModel.errorHandling = { [weak self] error in
+            guard let self = self else { return }
             print(error)
+            refreshControl.endRefreshing()
         }
         viewModel.success = { [weak self] in
             guard let self = self else { return }
             collection.reloadData()
+            refreshControl.endRefreshing()
         }
     }
 }
@@ -125,5 +140,9 @@ extension SearchVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         let controller = MovieDetailVC()
         controller.viewModel.config(movie: viewModel.movie[indexPath.row])
         navigationController?.show(controller, sender: nil)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        viewModel.paginate(page: indexPath.row, name: searchField.text ?? "")
     }
 }

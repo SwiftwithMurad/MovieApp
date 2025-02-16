@@ -15,8 +15,6 @@ class HomeViewModel {
     var success: (() -> Void)?
     var errorHandling: ((String) -> Void)?
     
-    let movieEndpoints = ["popular", "top_rated", "now_playing", "upcoming"]
-    
     func getAllMovies() {
         for name in MovieEndpoint2.allCases {
             homeManager.getAllMovies(name: name) { [weak self] data, error in
@@ -29,5 +27,10 @@ class HomeViewModel {
                 }
             }
         }
+    }
+    
+    func refreshPage() {
+        home.removeAll()
+        getAllMovies()
     }
 }

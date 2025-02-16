@@ -8,5 +8,5 @@
 import Foundation
 
 protocol SearchManagerUseCase {
-    func getSearchMovies(value: String, completion: @escaping ((Movie?, String?) -> Void))
+    func getSearchMovies(value: String, page: Int, completion: @escaping ((Movie?, String?) -> Void))
 }

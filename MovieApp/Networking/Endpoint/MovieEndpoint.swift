@@ -24,7 +24,6 @@ enum MovieEndpoint2: String, CaseIterable {
     case popular = "Popular"
     case topRated = "Top Rated"
     case upcoming = "UpComing"
-    case similar = "Similar"
     
     var path: String {
         switch self {
@@ -36,8 +35,8 @@ enum MovieEndpoint2: String, CaseIterable {
             return NetworkHelper.shared.configURL(with: "movie/top_rated")
         case .upcoming:
             return NetworkHelper.shared.configURL(with: "movie/upcoming")
-        case .similar:
-            return NetworkHelper.shared.configURL(with: "movie/similar")
+//        case .similar:
+//            return NetworkHelper.shared.configURL(with: "movie/similar")
         }
     }
 }

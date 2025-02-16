@@ -10,6 +10,11 @@ import UIKit
 class HomeVC: UIViewController {
     private let viewModel = HomeViewModel()
     
+    private let refreshControl: UIRefreshControl = {
+        let refresh = UIRefreshControl()
+        return refresh
+    }()
+    
     private lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -31,8 +36,10 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true        
         view.addSubview(collection)
         collection.register(HomeCell.self, forCellWithReuseIdentifier: "cell")
+        collection.refreshControl = refreshControl
         collection.delegate = self
         collection.dataSource = self
+        refreshControl.addTarget(self, action: #selector(refreshPage), for: .valueChanged)
     }
     
    private func configConstraints() {
@@ -52,11 +59,18 @@ class HomeVC: UIViewController {
             let action = UIAlertAction(title: "Ok", style: .cancel)
             alertController.addAction(action)
             present(alertController, animated: true)
+            refreshControl.endRefreshing()
         }
         viewModel.success = { [weak self] in
             guard let self = self else { return }
             collection.reloadData()
+            refreshControl.endRefreshing()
         }
+    }
+    
+    @objc func refreshPage() {
+        viewModel.refreshPage()
+        collection.reloadData()
     }
 }
 
