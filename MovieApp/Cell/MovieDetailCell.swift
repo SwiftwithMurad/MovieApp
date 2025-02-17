@@ -9,14 +9,6 @@ import UIKit
 
 class MovieDetailCell: UICollectionViewCell {
     var movie = [MovieResult]()
-    let movieManager = MovieManager()
-    var success: (() -> Void)?
-    var errorHandling: ((String) -> Void)?
-    var id: Int? {
-        didSet {
-            getMovies()
-        }
-    }
     
     private let label: UILabel = {
         let label = UILabel()
@@ -42,7 +34,6 @@ class MovieDetailCell: UICollectionViewCell {
         
         configUI()
         configConstraints()
-        getMovies()
     }
     
     required init?(coder: NSCoder) {
@@ -57,20 +48,6 @@ class MovieDetailCell: UICollectionViewCell {
         collection.register(ImageLabelCell.self, forCellWithReuseIdentifier: "cell")
     }
     
-    private func getMovies() {
-        movieManager.getSimilarMovies(id: self.id ?? 0) { [weak self] data, error in
-            guard let self = self else { return }
-            if let error {
-                errorHandling?(error)
-                print(error)
-            } else if let data {
-                movie = data.results ?? []
-                success?()
-                collection.reloadData()
-            }
-        }
-    }
-    
     private func configConstraints() {
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
@@ -81,6 +58,11 @@ class MovieDetailCell: UICollectionViewCell {
             collection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
             collection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
         ])
+    }
+    
+    func configMovie(result: [MovieResult]) {
+        movie = result
+        collection.reloadData()
     }
 }
 

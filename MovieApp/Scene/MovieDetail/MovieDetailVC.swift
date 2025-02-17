@@ -23,6 +23,7 @@ class MovieDetailVC: UIViewController {
         
         configUI()
         configConstraints()
+        configViewModel()
     }
     
     private func configUI() {
@@ -44,8 +45,19 @@ class MovieDetailVC: UIViewController {
         ])
     }
     
+    private func configViewModel() {
+        viewModel.success = { [weak self] in
+            guard let self = self else { return }
+            collection.reloadData()
+        }
+        viewModel.errorHandling = { error in
+            print(error)
+        }
+        viewModel.getMovies()
+    }
+    
     func configMovie(movie: MovieResult) {
-        viewModel.movie = movie
+        viewModel.movieModel = movie
     }
 }
 
@@ -56,18 +68,8 @@ extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieDetailCell
-        cell.id = viewModel.movie?.id ?? 0
-        cell.success = { [weak self] in
-            guard let self = self else { return }
-            collection.reloadData()
-        }
-        cell.errorHandling = { [weak self] error in
-            guard let self = self else { return }
-            let alertController = UIAlertController(title: "Error", message: "Data couldn't be read", preferredStyle: .alert)
-            let action = UIAlertAction(title: "Ok", style: .cancel)
-            alertController.addAction(action)
-            present(alertController, animated: true)
-        }
+        viewModel.id = viewModel.movieModel?.id ?? 0
+        cell.configMovie(result: viewModel.movie)
         return cell
     }
     
@@ -77,7 +79,7 @@ extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MovieDetailHeader
-        guard let movie = viewModel.movie else { return header }
+        guard let movie = viewModel.movieModel else { return header }
         header.configHeader(movie: movie)
         return header
     }
