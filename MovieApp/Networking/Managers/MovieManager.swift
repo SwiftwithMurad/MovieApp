@@ -10,23 +10,23 @@ import Foundation
 class MovieManager: MovieManagerUseCase {
     let manager = NetworkManager()
     
-    func getAllMovies(name: MovieEndpoint2, completion: @escaping ((Movie?, String?) -> Void)) {
+    func getAllMovies(name: MovieEndpoint, page: Int, completion: @escaping ((Movie?, String?) -> Void)) {
         var path = ""
         switch name {
         case .nowPlaying:
-            path = MovieEndpoint2.nowPlaying.path
+            path = "\(MovieEndpoint.nowPlaying.path)?page=\(page)"
         case .popular:
-            path = MovieEndpoint2.popular.path
+            path = "\(MovieEndpoint.popular.path)?page=\(page)"
         case .topRated:
-            path = MovieEndpoint2.topRated.path
+            path = "\(MovieEndpoint.topRated.path)?page=\(page)"
         case .upcoming:
-            path = MovieEndpoint2.upcoming.path
+            path = "\(MovieEndpoint.upcoming.path)?page=\(page)"
         }
         manager.getAPIRequest(path: path, model: Movie.self, completion: completion)
     }
-
+    
     func getSimilarMovies(id: Int, completion: @escaping ((Movie?, String?) -> Void)) {
-        let path = NetworkHelper.shared.configURL(with: "movie/\(id)\(MovieEndpoint.similar.rawValue)")
+        let path = NetworkHelper.shared.configURL(with: "movie/\(id)/\(SimilarMoviesEndpoint.similar)")
         manager.getAPIRequest(path: path, model: Movie.self, completion: completion)
     }
 }

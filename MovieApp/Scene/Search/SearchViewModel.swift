@@ -23,6 +23,7 @@ class SearchViewModel {
                 errorHandling?(error)
             } else if let data {
                 movieModel = data
+                allMovies = data.results ?? []
                 movie.append(contentsOf: data.results ?? [])
                 success?()
             }

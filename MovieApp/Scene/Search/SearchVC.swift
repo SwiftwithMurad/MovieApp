@@ -98,12 +98,19 @@ class SearchVC: UIViewController {
     }
     
     @objc func fieldConfiguration() {
-        viewModel.getAllMovies(name: searchField.text ?? "")
+        if let search = searchField.text, !search.isEmpty {
+            viewModel.getAllMovies(name: searchField.text ?? "")
+        } else {
+            viewModel.resetMovies()
+            viewModel.movie.removeAll()
+            collection.reloadData()
+        }
     }
     
     @objc func refreshSearch() {
         viewModel.resetMovies()
         viewModel.getAllMovies(name: searchField.text ?? "")
+        collection.reloadData()
     }
     
     private func configViewModel() {
