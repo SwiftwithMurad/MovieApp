@@ -23,8 +23,8 @@ class ActorsViewModel {
                 errorHandling?(errorMessage)
             } else if let data {
                 actorModel = data
-                actor = data.result ?? []
                 allActors.append(contentsOf: data.result ?? [])
+                actor = data.result ?? []
                 success?()
             }
         }

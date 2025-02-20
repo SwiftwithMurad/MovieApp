@@ -64,13 +64,13 @@ class HomeCell: UICollectionViewCell {
     
     private func configConstraints() {
         NSLayoutConstraint.activate([
-            title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
+            title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
             
             seeAllButton.centerYAnchor.constraint(equalTo: title.centerYAnchor),
             seeAllButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             
-            collection.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 16),
+            collection.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 8),
             collection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             collection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),

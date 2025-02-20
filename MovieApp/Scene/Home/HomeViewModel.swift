@@ -18,8 +18,9 @@ class HomeViewModel {
     
     func getAllMovies() {
         for name in MovieEndpoint.allCases {
-            homeManager.getAllMovies(name: name, page: (movie?.page ?? 0) + 1) { [weak self] data, error in
+            homeManager.getAllMovies(name: name) { [weak self] data, error in
                 guard let self = self else { return }
+                print(movie?.page ?? 0)
                 if let error {
                     errorHandling?(error)
                 } else if let data {
@@ -38,6 +39,7 @@ class HomeViewModel {
     }
     
     func refreshPage() {
+        movie = nil
         home.removeAll()
         getAllMovies()
     }

@@ -19,7 +19,7 @@ class ImageLabelCell: UICollectionViewCell {
     
     private lazy var cellName: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

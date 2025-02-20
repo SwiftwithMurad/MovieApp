@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyD_r7zogruuTC1n2sXshWttzPlso7bksTc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>418672082435</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>Murad-Abbaszade.MovieApp</string>
+	<key>PROJECT_ID</key>
+	<string>movieapp-8bc13</string>
+	<key>STORAGE_BUCKET</key>
+	<string>movieapp-8bc13.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:418672082435:ios:f3145cc70a95f0af8a1836</string>
+</dict>
+</plist>

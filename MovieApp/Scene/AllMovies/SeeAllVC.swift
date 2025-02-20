@@ -17,6 +17,11 @@ class SeeAllVC: UIViewController {
         return search
     }()
     
+    private let refreshControl: UIRefreshControl = {
+        let refresh = UIRefreshControl()
+        return refresh
+    }()
+    
     private let collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -25,15 +30,15 @@ class SeeAllVC: UIViewController {
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configUI()
         configConstraints()
         configViewModel()
     }
-
+    
     private func configUI() {
         title = "Search"
         view.backgroundColor = .white
@@ -43,6 +48,8 @@ class SeeAllVC: UIViewController {
         collection.delegate = self
         collection.dataSource = self
         collection.register(ImageLabelCell.self, forCellWithReuseIdentifier: "cell")
+        collection.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshPage), for: .valueChanged)
     }
     
     private func configConstraints() {
@@ -55,11 +62,20 @@ class SeeAllVC: UIViewController {
     }
     
     private func configViewModel() {
-        viewModel.getData(movie: viewModel.movie)
         viewModel.success = { [weak self] in
             guard let self = self else { return }
             collection.reloadData()
         }
+        viewModel.errorHandler = { error in
+            print(error)
+        }
+        viewModel.getSeeAll()
+    }
+    
+    @objc func refreshPage() {
+        viewModel.reset()
+        viewModel.getSeeAll()
+        collection.reloadData()
     }
 }
 
@@ -78,13 +94,17 @@ extension SeeAllVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         .init(width: 168, height: 280)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        viewModel.paginate(page: indexPath.item)
+    }
 }
 
 extension SeeAllVC: UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text, !text.isEmpty else {
             viewModel.movie = viewModel.allMovies
-            collection.reloadData()
+            refreshPage()
             return
         }
         viewModel.movie = viewModel.allMovies.filter({ $0.title?.lowercased().contains(text.lowercased()) ?? false })
@@ -93,7 +113,7 @@ extension SeeAllVC: UISearchResultsUpdating, UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         viewModel.movie = viewModel.allMovies
-        collection.reloadData()
+        refreshPage()
     }
     
     func willPresentSearchController(_ searchController: UISearchController) {
@@ -101,7 +121,7 @@ extension SeeAllVC: UISearchResultsUpdating, UISearchBarDelegate {
             self.collection.contentInset = UIEdgeInsets(top: 44, left: 0, bottom: 0, right: 0)
         }
     }
-
+    
     func willDismissSearchController(_ searchController: UISearchController) {
         UIView.animate(withDuration: 0.3) {
             self.collection.contentInset = .zero

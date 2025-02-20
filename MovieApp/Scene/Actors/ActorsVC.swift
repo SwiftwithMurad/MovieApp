@@ -41,6 +41,7 @@ class ActorsVC: UIViewController {
     
     private func configUI() {
         title = "Actors"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.searchController = search
         search.searchBar.delegate = self
         view.addSubview(collection)
@@ -80,6 +81,7 @@ class ActorsVC: UIViewController {
     @objc func refreshActors() {
         viewModel.reset()
         viewModel.getActors()
+        collection.reloadData()
     }
 }
 
@@ -114,7 +116,7 @@ extension ActorsVC: UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text, !text.isEmpty else {
             viewModel.allActors = viewModel.actor
-            collection.reloadData()
+            refreshActors()
             return
         }
         viewModel.allActors = viewModel.actor.filter({ $0.name?.lowercased().contains(text.lowercased()) ?? false })
@@ -123,7 +125,7 @@ extension ActorsVC: UISearchResultsUpdating, UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         viewModel.allActors = viewModel.actor
-        collection.reloadData()
+        refreshActors()
     }
     
     func willPresentSearchController(_ searchController: UISearchController) {

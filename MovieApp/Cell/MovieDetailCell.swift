@@ -9,12 +9,19 @@ import UIKit
 
 class MovieDetailCell: UICollectionViewCell {
     var movie = [MovieResult]()
+    var movieItems = [MovieDetailModel]()
     
     private let label: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 24, weight: .bold)
         label.text = "Similar Movies"
         label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let overviewText: UILabel = {
+        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -41,7 +48,7 @@ class MovieDetailCell: UICollectionViewCell {
     }
     
     private func configUI() {
-        [collection, label].forEach { contentView.addSubview($0) }
+        [collection, label, overviewText].forEach { contentView.addSubview($0) }
         collection.backgroundColor = .systemGray5
         collection.delegate = self
         collection.dataSource = self
@@ -53,6 +60,10 @@ class MovieDetailCell: UICollectionViewCell {
             label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
+            overviewText.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 16),
+            overviewText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            overviewText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            
             collection.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 0),
             collection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
             collection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
@@ -63,6 +74,12 @@ class MovieDetailCell: UICollectionViewCell {
     func configMovie(result: [MovieResult]) {
         movie = result
         collection.reloadData()
+    }
+    
+    func configModel(title: String, cell: [MovieResult], overview: String) {
+        label.text = title
+        movie = cell
+        overviewText.text = overview
     }
 }
 

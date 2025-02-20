@@ -87,7 +87,7 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
             guard let self = self else { return }
             let controller = SeeAllVC()
             controller.title = model.title ?? ""
-            controller.viewModel.getData(movie: model.items)
+            controller.viewModel.selectedType = model.title ?? ""
             navigationController?.show(controller, sender: nil)
         }
         cell.handleCell = { [weak self] movie in
