@@ -26,7 +26,8 @@ class MovieManager: MovieManagerUseCase {
         manager.getAPIRequest(path: path, model: Movie.self, completion: completion)
     }
     
-    func getSeeAllMovies(name: MovieEndpoint, page: Int, completion: @escaping ((Movie?, String?) -> Void)) {
+    func getSeeAllMovies(name: MovieEndpoint, page: Int,
+                         completion: @escaping ((Movie?, String?) -> Void)) {
         var path = ""
         switch name {
         case .nowPlaying:
