@@ -67,6 +67,10 @@ struct MovieResult: Codable, ImageLabelProtocol {
     var rating: String {
         "\(String(String(voteAverage ?? 0).prefix(3)))/10"
     }
+    
+    var backdrop: String {
+        backdropPath ?? ""
+    }
 
     enum CodingKeys: String, CodingKey {
         case adult

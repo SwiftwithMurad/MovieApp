@@ -8,7 +8,12 @@
 import UIKit
 
 class MovieDetailHeader: UICollectionReusableView {
-    var movie: MovieResult?
+    private let movieBackdropImage: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFit
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
     
     private let movieImage: UIImageView = {
         let image = UIImageView()
@@ -134,7 +139,8 @@ class MovieDetailHeader: UICollectionReusableView {
         [countryStack,
          hourStack,
          ratingStack].forEach { generalView.addSubview($0) }
-        [movieImage,
+        [movieBackdropImage,
+         movieImage,
          movieName,
          generalView,
          overviewLabel,
@@ -143,16 +149,22 @@ class MovieDetailHeader: UICollectionReusableView {
     
     private func configConstraints() {
         NSLayoutConstraint.activate([
-            movieImage.widthAnchor.constraint(equalToConstant: 300),
-            movieImage.heightAnchor.constraint(equalToConstant: 350),
-            movieImage.topAnchor.constraint(equalTo: topAnchor, constant: 0),
+            movieBackdropImage.topAnchor.constraint(equalTo: topAnchor, constant: 0),
+            movieBackdropImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
+            movieBackdropImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
+            movieBackdropImage.heightAnchor.constraint(equalToConstant: 250),
+            
+            movieImage.widthAnchor.constraint(equalToConstant: 100),
+            movieImage.heightAnchor.constraint(equalToConstant: 150),
+//            movieImage.topAnchor.constraint(equalTo: topAnchor, constant: 0),
+            movieImage.topAnchor.constraint(equalTo: movieBackdropImage.bottomAnchor, constant: -120),
             movieImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            movieImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
+//            movieImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
             //            movieImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             movieName.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 24),
             movieName.leadingAnchor.constraint(equalTo: movieImage.leadingAnchor),
-            movieName.trailingAnchor.constraint(equalTo: movieImage.trailingAnchor),
+            movieName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
             
             generalView.widthAnchor.constraint(equalToConstant: 300),
             generalView.heightAnchor.constraint(equalToConstant: 24),
@@ -198,5 +210,6 @@ class MovieDetailHeader: UICollectionReusableView {
         movieCountry.text = movie.country
         movieHour.text = movie.hour
         movieRating.text = movie.rating
+        movieBackdropImage.loadImage(with: movie.backdrop)
     }
 }

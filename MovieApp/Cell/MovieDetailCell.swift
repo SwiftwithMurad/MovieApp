@@ -9,7 +9,7 @@ import UIKit
 
 class MovieDetailCell: UICollectionViewCell {
     var movie = [MovieResult]()
-    var movieItems = [MovieDetailModel]()
+//    var movieItems = [MovieDetailModel]()
     
     private let label: UILabel = {
         let label = UILabel()

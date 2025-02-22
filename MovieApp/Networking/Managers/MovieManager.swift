@@ -26,7 +26,8 @@ class MovieManager: MovieManagerUseCase {
         manager.getAPIRequest(path: path, model: Movie.self, completion: completion)
     }
     
-    func getSeeAllMovies(name: MovieEndpoint, page: Int,
+    func getSeeAllMovies(name: MovieEndpoint,
+                         page: Int,
                          completion: @escaping ((Movie?, String?) -> Void)) {
         var path = ""
         switch name {
@@ -46,5 +47,10 @@ class MovieManager: MovieManagerUseCase {
                           completion: @escaping ((Movie?, String?) -> Void)) {
         let path = NetworkHelper.shared.configURL(with: "movie/\(id)/\(SimilarMoviesEndpoint.similar)")
         manager.getAPIRequest(path: path, model: Movie.self, completion: completion)
+    }
+    
+    func getMovieDetail(id: Int, completion: @escaping ((MovieDetail?, String?) -> Void)) {
+        let path = NetworkHelper.shared.configURL(with: "movie/\(id)")
+        manager.getAPIRequest(path: path, model: MovieDetail.self, completion: completion)
     }
 }

@@ -53,11 +53,8 @@ class MovieDetailVC: UIViewController {
         viewModel.errorHandling = { error in
             print(error)
         }
+        viewModel.getMovieDetail()
         viewModel.getSimilarMovies()
-    }
-    
-    func configMovie(movie: MovieResult) {
-        viewModel.movieModel = movie
     }
 }
 
@@ -69,7 +66,6 @@ extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieDetailCell
         cell.configMovie(result: viewModel.movie)
-//        cell.configModel(title: "Overview", cell: viewModel.movie, overview: "")
         return cell
     }
     

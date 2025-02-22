@@ -67,6 +67,10 @@ struct Result: Codable, ImageLabelProtocol {
     var rating: String {
         ""
     }
+    
+    var backdrop: String {
+        ""
+    }
 }
 
 // MARK: - PeopleKnownFor

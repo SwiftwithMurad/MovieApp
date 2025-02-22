@@ -93,7 +93,7 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         cell.handleCell = { [weak self] movie in
             guard let self = self else { return }
             let controller = MovieDetailVC()
-            controller.configMovie(movie: movie)
+            controller.viewModel.id = movie.id 
             navigationController?.show(controller, sender: nil)
         }
         return cell

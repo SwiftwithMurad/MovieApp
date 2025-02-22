@@ -15,4 +15,5 @@ protocol ImageLabelProtocol {
     var hour: String { get }
     var rating: String { get }
     var movieName: String { get }
+    var backdrop: String { get }
 }

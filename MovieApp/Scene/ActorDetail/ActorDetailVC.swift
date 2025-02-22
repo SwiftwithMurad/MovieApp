@@ -26,6 +26,7 @@ class ActorDetailVC: UIViewController {
     
     private func configUI() {
         view.addSubview(table)
+        view.backgroundColor = .white
         table.delegate = self
         table.dataSource = self
         table.register(ActorDetailCell.self, forCellReuseIdentifier: "cell")
@@ -71,7 +72,7 @@ extension ActorDetailVC: UITableViewDelegate, UITableViewDataSource {
         let controller = MovieDetailVC()
         let cast = viewModel.knownFor[indexPath.row]
         let movieResult = MovieResult(movie: cast)
-        controller.viewModel.config(movie: movieResult)
+        controller.viewModel.id = movieResult.id
         navigationController?.show(controller, sender: nil)
     }
 }

@@ -9,10 +9,13 @@ import Foundation
 import FirebaseAuth
 
 class AuthManager: AuthManagerUseCase {
+    
     func authenticateUser(email: String, password: String, completion: @escaping ((String?) -> Void)) {
-        handle(email: email, password: password) { _, error in
+        handle(email: email, password: password) { result, error in
             if let error {
                 completion(error.localizedDescription)
+            } else if let result {
+                UserDefaults.standard.set(result.user.uid, forKey: "userId")
             }
         }
     }
