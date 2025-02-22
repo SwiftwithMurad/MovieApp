@@ -8,7 +8,7 @@
 import Foundation
 
 class MovieDetailViewModel {
-    var movieModel: MovieDetail?
+    private(set) var movieModel: MovieDetail?
     private(set) var movie = [MovieResult]()
     let movieManager = MovieManager()
     var success: (() -> Void)?

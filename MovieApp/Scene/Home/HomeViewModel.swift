@@ -9,8 +9,8 @@ import Foundation
 
 class HomeViewModel {
     let movieManager = MovieManager()
-    var movie: Movie?
-    var home = [HomeModel]()
+    private(set) var movie: Movie?
+    private(set) var home = [HomeModel]()
     var success: (() -> Void)?
     var errorHandling: ((String) -> Void)?
     

@@ -81,6 +81,6 @@ extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        .init(width: collectionView.frame.width, height: 660)
+        .init(width: collectionView.frame.width, height: 560)
     }
 }

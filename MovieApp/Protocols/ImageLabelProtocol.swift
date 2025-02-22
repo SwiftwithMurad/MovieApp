@@ -12,7 +12,7 @@ protocol ImageLabelProtocol {
     var imageURL: String { get }
     var overviewText: String { get }
     var country: String { get }
-    var hour: String { get }
+    var hour: Int { get }
     var rating: String { get }
     var movieName: String { get }
     var backdrop: String { get }

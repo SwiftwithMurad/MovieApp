@@ -48,8 +48,8 @@ struct MovieDetail: Codable, ImageLabelProtocol {
         originalLanguage?.capitalized ?? ""
     }
     
-    var hour: String {
-        releaseDate ?? ""
+    var hour: Int {
+        runtime ?? 1
     }
     
     var rating: String {

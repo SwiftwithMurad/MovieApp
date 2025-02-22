@@ -60,8 +60,8 @@ struct Result: Codable, ImageLabelProtocol {
         ""
     }
 
-    var hour: String {
-        ""
+    var hour: Int {
+        1
     }
 
     var rating: String {

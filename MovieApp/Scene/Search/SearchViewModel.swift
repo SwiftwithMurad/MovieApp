@@ -8,9 +8,9 @@
 import Foundation
 
 class SearchViewModel {
-    var movieModel: Movie?
+    private(set) var movieModel: Movie?
     var movie = [MovieResult]()
-    var allMovies = [MovieResult]()
+    private(set) var allMovies = [MovieResult]()
     var searchManager = SearchManager()
     var success: (() -> Void)?
     var errorHandling: ((String) -> Void)?

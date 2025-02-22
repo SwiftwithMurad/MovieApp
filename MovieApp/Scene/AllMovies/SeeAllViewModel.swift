@@ -9,7 +9,7 @@ import Foundation
 
 class SeeAllViewModel {
     var selectedType: String?
-    var movieModel: Movie?
+    private(set) var movieModel: Movie?
     var movie = [MovieResult]()
     var allMovies = [MovieResult]()
     let movieManager = MovieManager()

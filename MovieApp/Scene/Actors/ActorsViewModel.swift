@@ -8,7 +8,7 @@
 import Foundation
 
 class ActorsViewModel {
-    var actorModel: Actor?
+    private(set) var actorModel: Actor?
     var actor = [Result]()
     var allActors = [Result]()
     let actorManager = ActorsManager()

@@ -9,18 +9,7 @@ import Foundation
 import FirebaseAuth
 
 class AuthManager: AuthManagerUseCase {
-    
     func authenticateUser(email: String, password: String, completion: @escaping ((String?) -> Void)) {
-        handle(email: email, password: password) { result, error in
-            if let error {
-                completion(error.localizedDescription)
-            } else if let result {
-                UserDefaults.standard.set(result.user.uid, forKey: "userId")
-            }
-        }
-    }
-    
-    func handle(email: String, password: String, completion: @escaping ((AuthDataResult?, Error?) -> Void)) {
         if Auth.auth().currentUser == nil {
             createUser(email: email, password: password, completion: completion)
         } else {
@@ -28,12 +17,26 @@ class AuthManager: AuthManagerUseCase {
         }
     }
     
-    func createUser(email: String, password: String, completion: @escaping ((AuthDataResult?, Error?) -> Void)) {
-        Auth.auth().createUser(withEmail: email, password: password, completion: completion)
+    func createUser(email: String, password: String, completion: @escaping ((String?) -> Void)) {
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            if let error {
+                completion(error.localizedDescription)
+            } else if let result {
+                UserDefaults.standard.set(result.user.uid, forKey: "userId")
+                completion(nil)
+            }
+        }
     }
     
-    func signIn(email: String, password: String, completion: @escaping ((AuthDataResult?, Error?) -> Void)) {
-        Auth.auth().signIn(withEmail: email, password: password, completion: completion)
+    func signIn(email: String, password: String, completion: @escaping ((String?) -> Void)) {
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error {
+                completion(error.localizedDescription)
+            } else if let result {
+                UserDefaults.standard.set(result.user.uid, forKey: "userId")
+                completion(nil)
+            }
+        }
     }
 }
 

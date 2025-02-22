@@ -156,23 +156,16 @@ class MovieDetailHeader: UICollectionReusableView {
             
             movieImage.widthAnchor.constraint(equalToConstant: 100),
             movieImage.heightAnchor.constraint(equalToConstant: 150),
-//            movieImage.topAnchor.constraint(equalTo: topAnchor, constant: 0),
-            movieImage.topAnchor.constraint(equalTo: movieBackdropImage.bottomAnchor, constant: -120),
+            movieImage.topAnchor.constraint(equalTo: movieBackdropImage.bottomAnchor, constant: -80),
             movieImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-//            movieImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
-            //            movieImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            movieName.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 24),
-            movieName.leadingAnchor.constraint(equalTo: movieImage.leadingAnchor),
-            movieName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            movieName.topAnchor.constraint(equalTo: movieBackdropImage.bottomAnchor, constant: 8),
+            movieName.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 32),
             
             generalView.widthAnchor.constraint(equalToConstant: 300),
             generalView.heightAnchor.constraint(equalToConstant: 24),
-            generalView.topAnchor.constraint(equalTo: movieName.bottomAnchor, constant: 16),
-            //            generalView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            //            generalView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
+            generalView.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 16),
             generalView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            //            generalView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
             
             countryStack.leadingAnchor.constraint(equalTo: generalView.leadingAnchor, constant: 8),
             countryStack.topAnchor.constraint(equalTo: generalView.topAnchor, constant: 4),
@@ -208,7 +201,7 @@ class MovieDetailHeader: UICollectionReusableView {
         movieName.text = movie.movieName
         overviewText.text = movie.overviewText
         movieCountry.text = movie.country
-        movieHour.text = movie.hour
+        movieHour.text = "\(String(movie.hour)) min"
         movieRating.text = movie.rating
         movieBackdropImage.loadImage(with: movie.backdrop)
     }

@@ -8,7 +8,7 @@
 import Foundation
 
 class ActorDetailViewModel {
-    var knownFor = [Cast]()
+    private(set) var knownFor = [Cast]()
     let actorManager = ActorsManager()
     var success: (() -> Void)?
     var errorHandling: ((String) -> Void)?
