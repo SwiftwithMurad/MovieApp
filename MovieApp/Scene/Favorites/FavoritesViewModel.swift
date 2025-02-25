@@ -35,5 +35,6 @@ class FavoritesViewModel {
     
     func reset() {
         movieDetail.removeAll()
+        getDocument()
     }
 }

@@ -82,8 +82,7 @@ extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MovieDetailHeader
         guard let movie = viewModel.movieModel else { return header }
-        let trailer = viewModel.trailer.filter({ $0.name == "Official Trailer" })[indexPath.row]
-        print(trailer)
+        let trailer = viewModel.trailer.filter({ $0.type == .trailer })[indexPath.row]
         header.configHeader(movie: movie, videoId: trailer.key ?? "")
         return header
     }

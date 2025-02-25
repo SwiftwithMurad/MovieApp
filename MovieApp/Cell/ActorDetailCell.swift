@@ -55,7 +55,11 @@ class ActorDetailCell: UITableViewCell {
     }
     
     private func configUI() {
-        [movieImage, movieName, starImage, ratingLabel ,overviewLabel].forEach { contentView.addSubview($0) }
+        [movieImage,
+         movieName,
+         starImage,
+         ratingLabel,
+         overviewLabel].forEach { contentView.addSubview($0) }
     }
     
     private func configConstraints() {

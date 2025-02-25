@@ -63,7 +63,6 @@ class FavoritesVC: UIViewController {
     
     @objc func refreshPage() {
         viewModel.reset()
-        viewModel.getDocument()
         table.reloadData()
     }
 }
