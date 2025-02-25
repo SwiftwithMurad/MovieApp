@@ -33,7 +33,7 @@ struct MovieDetail: Codable, ImageLabelProtocol {
     
     
     var titleText: String {
-        originalTitle ?? ""
+        title ?? ""
     }
     
     var imageURL: String {
@@ -63,7 +63,6 @@ struct MovieDetail: Codable, ImageLabelProtocol {
     var backdrop: String {
         backdropPath ?? ""
     }
-
 
     enum CodingKeys: String, CodingKey {
         case adult

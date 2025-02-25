@@ -6,11 +6,11 @@
 //
 
 import UIKit
+import YouTubeiOSPlayerHelper
 
 class MovieDetailHeader: UICollectionReusableView {
-    private let movieBackdropImage: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleAspectFit
+    private let movieBackdropImage: YTPlayerView = {
+        let image = YTPlayerView()
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -157,10 +157,11 @@ class MovieDetailHeader: UICollectionReusableView {
             movieImage.widthAnchor.constraint(equalToConstant: 100),
             movieImage.heightAnchor.constraint(equalToConstant: 150),
             movieImage.topAnchor.constraint(equalTo: movieBackdropImage.bottomAnchor, constant: -80),
-            movieImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            movieImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
             
             movieName.topAnchor.constraint(equalTo: movieBackdropImage.bottomAnchor, constant: 8),
             movieName.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 32),
+            movieName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
             
             generalView.widthAnchor.constraint(equalToConstant: 300),
             generalView.heightAnchor.constraint(equalToConstant: 24),
@@ -196,13 +197,14 @@ class MovieDetailHeader: UICollectionReusableView {
         ])
     }
     
-    func configHeader(movie: ImageLabelProtocol) {
+    func configHeader(movie: ImageLabelProtocol, videoId: String) {
         movieImage.loadImage(with: movie.imageURL)
         movieName.text = movie.movieName
         overviewText.text = movie.overviewText
         movieCountry.text = movie.country
         movieHour.text = "\(String(movie.hour)) min"
         movieRating.text = movie.rating
-        movieBackdropImage.loadImage(with: movie.backdrop)
+        movieBackdropImage.load(withVideoId: videoId,
+                                playerVars: ["playsinline": 1])
     }
 }

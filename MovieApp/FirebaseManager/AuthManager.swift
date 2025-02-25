@@ -9,6 +9,8 @@ import Foundation
 import FirebaseAuth
 
 class AuthManager: AuthManagerUseCase {
+    static let shared = AuthManager()
+    
     func authenticateUser(email: String, password: String, completion: @escaping ((String?) -> Void)) {
         if Auth.auth().currentUser == nil {
             createUser(email: email, password: password, completion: completion)
@@ -37,6 +39,10 @@ class AuthManager: AuthManagerUseCase {
                 completion(nil)
             }
         }
+    }
+    
+    func signOut() {
+        try? Auth.auth().signOut()        
     }
 }
 

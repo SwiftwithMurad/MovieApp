@@ -34,6 +34,7 @@ class MovieDetailVC: UIViewController {
         collection.backgroundColor = .systemGray5
         collection.register(MovieDetailCell.self, forCellWithReuseIdentifier: "cell")
         collection.register(MovieDetailHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark"), style: .plain, target: self, action: #selector(bookmarkButtonTapped))
     }
     
     private func configConstraints() {
@@ -55,6 +56,11 @@ class MovieDetailVC: UIViewController {
         }
         viewModel.getMovieDetail()
         viewModel.getSimilarMovies()
+        viewModel.showTrailer()
+    }
+    
+    @objc func bookmarkButtonTapped() {
+        viewModel.addDataToFireStore()
     }
 }
 
@@ -76,7 +82,9 @@ extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MovieDetailHeader
         guard let movie = viewModel.movieModel else { return header }
-        header.configHeader(movie: movie)
+        let trailer = viewModel.trailer.filter({ $0.name == "Official Trailer" })[indexPath.row]
+        print(trailer)
+        header.configHeader(movie: movie, videoId: trailer.key ?? "")
         return header
     }
     

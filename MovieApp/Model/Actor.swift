@@ -70,7 +70,7 @@ struct Result: Codable, ImageLabelProtocol {
     
     var backdrop: String {
         ""
-    }
+    }    
 }
 
 // MARK: - PeopleKnownFor

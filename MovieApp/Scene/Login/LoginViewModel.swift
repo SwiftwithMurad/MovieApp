@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class LoginViewModel {
     let authManager = AuthManager()
@@ -14,7 +15,14 @@ class LoginViewModel {
         if !email.isEmpty && !password.isEmpty {
             authManager.authenticateUser(email: email,
                                          password: password) { message in
-                print(message ?? "")
+                if let message {
+                    print(message)
+                } else {
+                    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                       let sceneDelegate = windowScene.delegate as? SceneDelegate {
+                        sceneDelegate.tabBarRoot()
+                    }
+                }
             }
         }
     }

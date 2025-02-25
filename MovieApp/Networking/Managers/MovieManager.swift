@@ -53,4 +53,9 @@ class MovieManager: MovieManagerUseCase {
         let path = NetworkHelper.shared.configURL(with: "movie/\(id)")
         manager.getAPIRequest(path: path, model: MovieDetail.self, completion: completion)
     }
+    
+    func getTrailer(id: Int, completion: @escaping ((MovieTrailer?, String?) -> Void)) {
+        let path = TrailerEndpoint.trailer(id: id).path
+        manager.getAPIRequest(path: path, model: MovieTrailer.self, completion: completion)
+    }
 }

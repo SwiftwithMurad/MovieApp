@@ -152,6 +152,7 @@ class LoginVC: UIViewController {
     
     @objc func buttonTapped() {
         viewModel.config(email: emailField.text ?? "", password: passwordField.text ?? "")
+        UserDefaults.standard.set(true, forKey: "isLoggedIn")
     }
     
     func configureConstraints() {
