@@ -102,7 +102,6 @@ class SearchVC: UIViewController {
             viewModel.getAllMovies(name: searchField.text ?? "")
         } else {
             viewModel.resetMovies()
-            viewModel.movie.removeAll()
             collection.reloadData()
         }
     }

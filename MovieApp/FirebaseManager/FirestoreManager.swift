@@ -11,7 +11,8 @@ import FirebaseCore
 
 class FirestoreManager: FirestoreManagerUseCase {
     let db = Firestore.firestore()
-    func saveMovie(movie: MovieDetail, completion: @escaping ((String?) -> Void)) {
+    func saveMovie(movie: MovieDetail,
+                   completion: @escaping ((String?) -> Void)) {
         let data: [String: Any] = [
             "movieId": movie.id ?? 0,
             "name": movie.title ?? 0,
@@ -28,7 +29,8 @@ class FirestoreManager: FirestoreManagerUseCase {
         }
     }
     
-    func getMovies(count: Int, completion: @escaping (([String: Any]?, String?) -> Void)) {
+    func getMovies(count: Int,
+                   completion: @escaping (([String: Any]?, String?) -> Void)) {
         guard let collection = UserDefaults.standard.value(forKey: "userId") as? String else { return }
         db.collection(collection).getDocuments { snapshot, error in
             if let error {

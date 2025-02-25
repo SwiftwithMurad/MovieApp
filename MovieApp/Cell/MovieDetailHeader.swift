@@ -6,13 +6,27 @@
 //
 
 import UIKit
-import YouTubeiOSPlayerHelper
 
 class MovieDetailHeader: UICollectionReusableView {
-    private let movieBackdropImage: YTPlayerView = {
-        let image = YTPlayerView()
+    var handleButton: (() -> Void)?
+    
+    private let movieBackdropImage: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
+    }()
+    
+    private lazy var playButton: UIImageView = {
+        let button = UIImageView()
+        button.image = UIImage(systemName: "play.circle.fill")
+        button.tintColor = .red
+        button.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(playButtonTapped))
+        tapGesture.numberOfTapsRequired = 1
+        button.addGestureRecognizer(tapGesture)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     private let movieImage: UIImageView = {
@@ -129,6 +143,10 @@ class MovieDetailHeader: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func playButtonTapped() {
+        handleButton?()
+    }
+    
     private func configUI() {
         [movieCountry,
          countryImage].forEach { countryStack.addArrangedSubview($0)}
@@ -140,6 +158,7 @@ class MovieDetailHeader: UICollectionReusableView {
          hourStack,
          ratingStack].forEach { generalView.addSubview($0) }
         [movieBackdropImage,
+         playButton,
          movieImage,
          movieName,
          generalView,
@@ -154,12 +173,17 @@ class MovieDetailHeader: UICollectionReusableView {
             movieBackdropImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
             movieBackdropImage.heightAnchor.constraint(equalToConstant: 250),
             
+            playButton.centerYAnchor.constraint(equalTo: movieBackdropImage.centerYAnchor),
+            playButton.centerXAnchor.constraint(equalTo: movieBackdropImage.centerXAnchor),
+            playButton.widthAnchor.constraint(equalToConstant: 60),
+            playButton.heightAnchor.constraint(equalToConstant: 60),
+            
             movieImage.widthAnchor.constraint(equalToConstant: 100),
             movieImage.heightAnchor.constraint(equalToConstant: 150),
             movieImage.topAnchor.constraint(equalTo: movieBackdropImage.bottomAnchor, constant: -80),
             movieImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
             
-            movieName.topAnchor.constraint(equalTo: movieBackdropImage.bottomAnchor, constant: 8),
+            movieName.topAnchor.constraint(equalTo: movieBackdropImage.bottomAnchor, constant: 24),
             movieName.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 32),
             movieName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
             
@@ -197,14 +221,13 @@ class MovieDetailHeader: UICollectionReusableView {
         ])
     }
     
-    func configHeader(movie: ImageLabelProtocol, videoId: String) {
+    func configHeader(movie: ImageLabelProtocol) {
         movieImage.loadImage(with: movie.imageURL)
         movieName.text = movie.movieName
         overviewText.text = movie.overviewText
         movieCountry.text = movie.country
         movieHour.text = "\(String(movie.hour)) min"
         movieRating.text = movie.rating
-        movieBackdropImage.load(withVideoId: videoId,
-                                playerVars: ["playsinline": 1])
+        movieBackdropImage.loadImage(with: movie.backdrop)
     }
 }

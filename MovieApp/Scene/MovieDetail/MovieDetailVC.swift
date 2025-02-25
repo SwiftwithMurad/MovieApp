@@ -33,8 +33,12 @@ class MovieDetailVC: UIViewController {
         collection.dataSource = self
         collection.backgroundColor = .systemGray5
         collection.register(MovieDetailCell.self, forCellWithReuseIdentifier: "cell")
-        collection.register(MovieDetailHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark"), style: .plain, target: self, action: #selector(bookmarkButtonTapped))
+        collection.register(MovieDetailHeader.self,
+                            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(bookmarkButtonTapped))
     }
     
     private func configConstraints() {
@@ -61,6 +65,7 @@ class MovieDetailVC: UIViewController {
     
     @objc func bookmarkButtonTapped() {
         viewModel.addDataToFireStore()
+        UserDefaults.standard.set(true, forKey: "buttonTapped")
     }
 }
 
@@ -82,8 +87,13 @@ extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MovieDetailHeader
         guard let movie = viewModel.movieModel else { return header }
-        let trailer = viewModel.trailer.filter({ $0.type == .trailer })[indexPath.row]
-        header.configHeader(movie: movie, videoId: trailer.key ?? "")
+        header.configHeader(movie: movie)
+        header.handleButton = { [weak self] in
+            guard let self = self else { return }
+            let controller = TrailerVC()
+            controller.viewModel.key = viewModel.trailer.filter({ $0.type == .trailer })[indexPath.row].key
+            navigationController?.show(controller, sender: nil)
+        }
         return header
     }
     

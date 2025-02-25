@@ -17,6 +17,7 @@ class FavoritesVC: UIViewController {
     
     private let table: UITableView = {
         let table = UITableView()
+        table.allowsSelection = false
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()

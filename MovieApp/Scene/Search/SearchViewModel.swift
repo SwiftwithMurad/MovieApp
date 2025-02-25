@@ -16,7 +16,7 @@ class SearchViewModel {
     var errorHandling: ((String) -> Void)?
     
     func getAllMovies(name: String) {
-        print(movieModel?.page ?? 0)
+        print(movieModel?.page ?? 0)        
         searchManager.getSearchMovies(value: name, page: (movieModel?.page ?? 0) + 1) { [weak self] data, error in
             guard let self = self else { return }
             if let error {
