@@ -9,6 +9,6 @@ import Foundation
 
 protocol FirestoreManagerUseCase {
     func saveMovie(movie: MovieDetail, completion: @escaping ((String?) -> Void))
-    func getMovies(count: Int, completion: @escaping (([String: Any]?, String?) -> Void))
-    func getDocument(completion: @escaping (([String: Any]?, String?) -> Void))
+    func getMovies(count: Int, completion: @escaping ((FavoritesModel?, String?) -> Void))
+    func getDocument(completion: @escaping ((FavoritesModel?, String?) -> Void))
 }

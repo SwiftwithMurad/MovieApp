@@ -36,7 +36,7 @@ class TrailerVC: UIViewController {
         NSLayoutConstraint.activate([
             movieTrailer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             movieTrailer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            movieTrailer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -24),
+            movieTrailer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             movieTrailer.heightAnchor.constraint(equalToConstant: 400)
         ])
     }

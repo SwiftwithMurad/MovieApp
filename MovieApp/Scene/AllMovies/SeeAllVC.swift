@@ -49,7 +49,6 @@ class SeeAllVC: UIViewController {
     }
     
     private func configUI() {
-        title = "Search"
         view.backgroundColor = .white
         navigationItem.searchController = search
         view.addSubview(collection)

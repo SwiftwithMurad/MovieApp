@@ -20,11 +20,6 @@ class FirestoreManager: FirestoreManagerUseCase {
             "poster": movie.posterPath ?? "",
             "rating": movie.voteAverage ?? 0,
             "overview": movie.overviewText]
-        let data2: [FavoritesModel] = [.init(id: movie.id ?? 0,
-                                             title: movie.title ?? "",
-                                             poster: movie.posterPath ?? "",
-                                             rate: movie.voteAverage ?? 0,
-                                             overview: movie.overviewText)]
         
         guard let collection = UserDefaults.standard.value(forKey: "userId") as? String else { return }
         db.collection(collection).document("\(movie.posterPath ?? "")").setData(data) { error in
@@ -37,19 +32,27 @@ class FirestoreManager: FirestoreManagerUseCase {
     }
     
     func getMovies(count: Int,
-                   completion: @escaping (([String: Any]?, String?) -> Void)) {
+                   completion: @escaping ((FavoritesModel?, String?) -> Void)) {
         guard let collection = UserDefaults.standard.value(forKey: "userId") as? String else { return }
         db.collection(collection).getDocuments { snapshot, error in
             if let error {
                 completion(nil, error.localizedDescription)
             } else if let snapshot {
                 let data = snapshot.documents[count - 1].data()
-                completion(data, nil)
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: data)
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let movie = try decoder.decode(FavoritesModel.self, from: jsonData)
+                    completion(movie, nil)
+                } catch {
+                    print(error.localizedDescription)
+                }
             }
         }
     }
     
-    func getDocument(completion: @escaping (([String: Any]?, String?) -> Void)) {
+    func getDocument(completion: @escaping ((FavoritesModel?, String?) -> Void)) {
         guard let collection = UserDefaults.standard.value(forKey: "userId") as? String else { return }
         db.collection(collection).getDocuments { [weak self] snapshot, error in
             guard let self = self else { return }

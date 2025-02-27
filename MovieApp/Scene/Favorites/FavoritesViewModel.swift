@@ -19,17 +19,9 @@ class FavoritesViewModel {
             if let error {
                 errorHandling?(error)
             } else if let data {
-                do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: data)
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let movie = try decoder.decode(FavoritesModel.self, from: jsonData)
-                    movieDetail.append(movie)
-                    print("Movies: \(movieDetail)")
-                    success?()
-                } catch {
-                    errorHandling?(error.localizedDescription)
-                }
+                movieDetail.append(data)
+                print("Movies: \(movieDetail)")
+                success?()
             }
         }
     }
