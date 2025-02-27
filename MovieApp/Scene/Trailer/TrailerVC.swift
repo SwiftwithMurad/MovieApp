@@ -17,7 +17,7 @@ class TrailerVC: UIViewController {
         trailer.translatesAutoresizingMaskIntoConstraints = false
         return trailer
     }()
-    
+      
     override func viewDidLoad() {
         super.viewDidLoad()
         

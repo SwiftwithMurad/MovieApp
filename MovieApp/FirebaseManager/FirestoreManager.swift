@@ -11,6 +11,7 @@ import FirebaseCore
 
 class FirestoreManager: FirestoreManagerUseCase {
     let db = Firestore.firestore()
+    
     func saveMovie(movie: MovieDetail,
                    completion: @escaping ((String?) -> Void)) {
         let data: [String: Any] = [
@@ -19,8 +20,14 @@ class FirestoreManager: FirestoreManagerUseCase {
             "poster": movie.posterPath ?? "",
             "rating": movie.voteAverage ?? 0,
             "overview": movie.overviewText]
+        let data2: [FavoritesModel] = [.init(id: movie.id ?? 0,
+                                             title: movie.title ?? "",
+                                             poster: movie.posterPath ?? "",
+                                             rate: movie.voteAverage ?? 0,
+                                             overview: movie.overviewText)]
+        
         guard let collection = UserDefaults.standard.value(forKey: "userId") as? String else { return }
-        db.collection(collection).document(movie.imageURL).setData(data) { error in
+        db.collection(collection).document("\(movie.posterPath ?? "")").setData(data) { error in
             if let error {
                 completion(error.localizedDescription)
             } else {
@@ -63,5 +70,10 @@ class FirestoreManager: FirestoreManagerUseCase {
                 }
             }
         }
+    }
+    
+    func deleteMovie(movieId: String) {
+        guard let collection = UserDefaults.standard.value(forKey: "userId") as? String else { return }
+        db.collection(collection).document("\(movieId)").delete()
     }
 }

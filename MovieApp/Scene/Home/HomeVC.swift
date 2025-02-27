@@ -4,7 +4,7 @@
 //
 //  Created by Mac on 01.02.25.
 //
-
+ 
 import UIKit
 
 class HomeVC: UIViewController {
@@ -85,7 +85,7 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         cell.configCell(name: model.title ?? "", data: model.items)
         cell.handleButton = { [weak self] in
             guard let self = self else { return }
-            let controller = SeeAllVC()
+            let controller = SeeAllVC(viewModel: .init(movie: model.items))
             controller.title = model.title ?? ""
             controller.viewModel.selectedType = model.title ?? ""
             navigationController?.show(controller, sender: nil)

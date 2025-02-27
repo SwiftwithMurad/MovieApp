@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FireStoreModel: Codable, ActorDetails {
+struct FavoritesModel: Codable, ActorDetails {
     let id: Int?
     let title: String?
     let poster: String?

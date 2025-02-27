@@ -56,8 +56,10 @@ class FavoritesVC: UIViewController {
             table.reloadData()
             refresh.endRefreshing()
         }
-        viewModel.errorHandling = { error in
+        viewModel.errorHandling = { [weak self] error in
+            guard let self = self else { return }
             print(error)
+            refresh.endRefreshing()
         }
         viewModel.getDocument()
     }
@@ -77,5 +79,22 @@ extension FavoritesVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ActorDetailCell
         cell.config(data: viewModel.movieDetail[indexPath.row])
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .delete
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "") { [weak self] action, view, completion in
+            guard let self = self else { return }
+            viewModel.deleteMovie(index: viewModel.movieDetail[indexPath.row].poster ?? "")
+            viewModel.movieDetail.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            table.reloadData()
+            completion(true)
+        }
+        deleteAction.image = UIImage(systemName: "trash")
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }

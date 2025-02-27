@@ -9,7 +9,7 @@ import Foundation
 
 class FavoritesViewModel {
     let fireStoreManager = FirestoreManager()
-    private(set) var movieDetail = [FireStoreModel]()
+    var movieDetail = [FavoritesModel]()
     var errorHandling: ((String) -> Void)?
     var success: (() -> Void)?
     
@@ -23,8 +23,9 @@ class FavoritesViewModel {
                     let jsonData = try JSONSerialization.data(withJSONObject: data)
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let movie = try decoder.decode(FireStoreModel.self, from: jsonData)
+                    let movie = try decoder.decode(FavoritesModel.self, from: jsonData)
                     movieDetail.append(movie)
+                    print("Movies: \(movieDetail)")
                     success?()
                 } catch {
                     errorHandling?(error.localizedDescription)
@@ -36,5 +37,9 @@ class FavoritesViewModel {
     func reset() {
         movieDetail.removeAll()
         getDocument()
+    }
+    
+    func deleteMovie(index: String) {
+        fireStoreManager.deleteMovie(movieId: index)
     }
 }

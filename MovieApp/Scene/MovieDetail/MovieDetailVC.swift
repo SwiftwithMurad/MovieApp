@@ -65,7 +65,7 @@ class MovieDetailVC: UIViewController {
     
     @objc func bookmarkButtonTapped() {
         viewModel.addDataToFireStore()
-        UserDefaults.standard.set(true, forKey: "buttonTapped")
+        UserDefaults.standard.set(true, forKey: viewModel.movieModel?.movieName ?? "")
     }
 }
 

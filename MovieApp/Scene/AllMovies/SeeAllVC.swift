@@ -8,7 +8,16 @@
 import UIKit
 
 class SeeAllVC: UIViewController {
-    let viewModel = SeeAllViewModel()
+    let viewModel: SeeAllViewModel
+    
+    init(viewModel: SeeAllViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var search: UISearchController = {
         let search = UISearchController(searchResultsController: nil)
