@@ -16,7 +16,7 @@ class HomeViewModel {
     
     func getAllMovies() {
         for name in MovieEndpoint.allCases {
-            movieManager.getSeeAllMovies(name: name, page: 1) { [weak self] data, error in
+            movieManager.getAllMovies(name: name, page: 1) { [weak self] data, error in
                 guard let self = self else { return }
                 if let error {
                     errorHandling?(error)

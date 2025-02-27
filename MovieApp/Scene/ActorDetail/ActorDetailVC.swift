@@ -69,10 +69,9 @@ extension ActorDetailVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let controller = MovieDetailVC()
         let cast = viewModel.knownFor[indexPath.row]
         let movieResult = MovieResult(movie: cast)
-        controller.viewModel.id = movieResult.id
+        let controller = MovieDetailVC(viewModel: .init(id: movieResult.id ?? 0))
         navigationController?.show(controller, sender: nil)
     }
 }

@@ -11,22 +11,6 @@ class MovieManager: MovieManagerUseCase {
     let manager = NetworkManager()
     
     func getAllMovies(name: MovieEndpoint,
-                      completion: @escaping ((Movie?, String?) -> Void)) {
-        var path = ""
-        switch name {
-        case .nowPlaying:
-            path = MovieEndpoint.nowPlaying.path
-        case .popular:
-            path = MovieEndpoint.popular.path
-        case .topRated:
-            path = MovieEndpoint.topRated.path
-        case .upcoming:
-            path = MovieEndpoint.upcoming.path
-        }
-        manager.getAPIRequest(path: path, model: Movie.self, completion: completion)
-    }
-    
-    func getSeeAllMovies(name: MovieEndpoint,
                          page: Int,
                          completion: @escaping ((Movie?, String?) -> Void)) {
         var path = ""

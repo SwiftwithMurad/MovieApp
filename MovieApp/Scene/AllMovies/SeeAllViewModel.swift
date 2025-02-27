@@ -8,16 +8,18 @@
 import Foundation
 
 class SeeAllViewModel {
-    var selectedType: String?
+    private var selectedType: String
+    private var movieManager: MovieManagerUseCase
     private(set) var movieModel: Movie?
     var movie: [MovieResult]
     var allMovies = [MovieResult]()
-    let movieManager = MovieManager()
     var success: (() -> Void)?
     var errorHandler: ((String) -> Void)?
     
-    init(movie: [MovieResult]) {
+    init(movie: [MovieResult], movieManager: MovieManagerUseCase, selectedType: String) {
         self.movie = movie
+        self.movieManager = movieManager
+        self.selectedType = selectedType
     }
     
     func getSeeAll() {
@@ -36,7 +38,7 @@ class SeeAllViewModel {
     }
     
     func getMovies(endPoint: MovieEndpoint) {
-        movieManager.getSeeAllMovies(name: endPoint, page: (movieModel?.page ?? 2) + 1) { [weak self] data, error in
+        movieManager.getAllMovies(name: endPoint, page: (movieModel?.page ?? 2) + 1) { [weak self] data, error in
             guard let self = self else { return }
             print(movieModel?.page ?? 0)
             if let error {

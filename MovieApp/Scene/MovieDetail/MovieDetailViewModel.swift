@@ -11,11 +11,15 @@ class MovieDetailViewModel {
     private(set) var movieModel: MovieDetail?
     private(set) var movie = [MovieResult]()
     private(set) var trailer = [TrailerResult]()
-    let movieManager = MovieManager()
+    private var id: Int?
+    private let movieManager = MovieManager()
     let fireStoreManager = FirestoreManager()
     var success: (() -> Void)?
     var errorHandling: ((String) -> Void)?
-    var id: Int?
+    
+    init(id: Int) {
+        self.id = id
+    }
 
     func getMovieDetail() {
         movieManager.getMovieDetail(id: id ?? 1) { [weak self] data, error in

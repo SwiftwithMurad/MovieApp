@@ -143,8 +143,7 @@ extension SearchVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = MovieDetailVC()
-        controller.viewModel.id = viewModel.movie[indexPath.row].id
+        let controller = MovieDetailVC(viewModel: .init(id: viewModel.movie[indexPath.row].id ?? 0))
         navigationController?.show(controller, sender: nil)
     }
     

@@ -8,7 +8,7 @@
 import UIKit
 
 class MovieDetailVC: UIViewController {
-    let viewModel = MovieDetailViewModel()
+    let viewModel: MovieDetailViewModel
     
     private let collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -17,6 +17,15 @@ class MovieDetailVC: UIViewController {
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
+    
+    init(viewModel: MovieDetailViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
