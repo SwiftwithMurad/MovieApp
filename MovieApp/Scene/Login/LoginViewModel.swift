@@ -20,7 +20,9 @@ class LoginViewModel {
                 } else {
                     if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                        let sceneDelegate = windowScene.delegate as? SceneDelegate {
-                        sceneDelegate.tabBarRoot()
+                        let appCoordinator = AppCoordinator(window: sceneDelegate.window,
+                                                            navigationController: UINavigationController())
+                        appCoordinator.start()
                     }
                 }
             }

@@ -52,8 +52,9 @@ class ActorDetailVC: UIViewController {
     
     private func configViewModel() {
         viewModel.getActorMovies()
-        viewModel.errorHandling = { error in
-            print(error)
+        viewModel.errorHandling = { [weak self] error in
+            guard let self = self else { return }
+            showAlert(message: error)
         }
         viewModel.success = { [weak self] in
             guard let self = self else { return }
@@ -80,7 +81,8 @@ extension ActorDetailVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cast = viewModel.knownFor[indexPath.row]
         let movieResult = MovieResult(movie: cast)
-        let controller = MovieDetailVC(viewModel: .init(id: movieResult.id ?? 0))
-        navigationController?.show(controller, sender: nil)
+        let movieDetailCoordinator = MovieDetailCoordinator(id: movieResult.id ?? 0,
+                                                            navigationController: navigationController ?? UINavigationController())
+        movieDetailCoordinator.start()
     }
 }

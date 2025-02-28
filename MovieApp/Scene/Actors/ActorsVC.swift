@@ -65,10 +65,7 @@ class ActorsVC: UIViewController {
         viewModel.getActors()
         viewModel.errorHandling = { [weak self] error in
             guard let self = self else { return }
-            let alertController = UIAlertController(title: "Error", message: "Data couldn't be read", preferredStyle: .alert)
-            let action = UIAlertAction(title: "Ok", style: .cancel)
-            alertController.addAction(action)
-            present(alertController, animated: true)
+            showAlert(message: error)
             refreshControl.endRefreshing()
         }
         viewModel.success = { [weak self] in

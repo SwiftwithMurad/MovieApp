@@ -11,8 +11,8 @@ class MovieManager: MovieManagerUseCase {
     let manager = NetworkManager()
     
     func getAllMovies(name: MovieEndpoint,
-                         page: Int,
-                         completion: @escaping ((Movie?, String?) -> Void)) {
+                      page: Int,
+                      completion: @escaping ((Movie?, String?) -> Void)) {
         var path = ""
         switch name {
         case .nowPlaying:

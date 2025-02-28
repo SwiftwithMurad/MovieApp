@@ -58,7 +58,7 @@ class FavoritesVC: UIViewController {
         }
         viewModel.errorHandling = { [weak self] error in
             guard let self = self else { return }
-            print(error)
+            showAlert(message: error)
             refresh.endRefreshing()
         }
         viewModel.getDocument()

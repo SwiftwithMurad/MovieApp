@@ -115,7 +115,7 @@ class SearchVC: UIViewController {
     private func configViewModel() {
         viewModel.errorHandling = { [weak self] error in
             guard let self = self else { return }
-            print(error)
+            showAlert(message: error)
             refreshControl.endRefreshing()
         }
         viewModel.success = { [weak self] in

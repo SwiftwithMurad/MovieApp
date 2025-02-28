@@ -38,7 +38,7 @@ class SeeAllViewModel {
     }
     
     func getMovies(endPoint: MovieEndpoint) {
-        movieManager.getAllMovies(name: endPoint, page: (movieModel?.page ?? 2) + 1) { [weak self] data, error in
+        movieManager.getAllMovies(name: endPoint, page: (movieModel?.page ?? 1) + 1) { [weak self] data, error in
             guard let self = self else { return }
             print(movieModel?.page ?? 0)
             if let error {

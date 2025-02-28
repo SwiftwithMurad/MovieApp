@@ -64,8 +64,9 @@ class MovieDetailVC: UIViewController {
             guard let self = self else { return }
             collection.reloadData()
         }
-        viewModel.errorHandling = { error in
-            print(error)
+        viewModel.errorHandling = { [weak self] error in
+            guard let self = self else { return }
+            showAlert(message: error)
         }
         viewModel.getMovieDetail()
         viewModel.getSimilarMovies()

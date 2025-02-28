@@ -74,8 +74,9 @@ class SeeAllVC: UIViewController {
             guard let self = self else { return }
             collection.reloadData()
         }
-        viewModel.errorHandler = { error in
-            print(error)
+        viewModel.errorHandler = { [weak self] error in
+            guard let self = self else { return }
+            showAlert(message: error)
         }
         viewModel.getSeeAll()
     }
@@ -101,6 +102,12 @@ extension SeeAllVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         .init(width: 168, height: 280)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieDetailCoordinator = MovieDetailCoordinator(id: viewModel.movie[indexPath.row].id ?? 0,
+                                                            navigationController: navigationController ?? UINavigationController())
+        movieDetailCoordinator.start()
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

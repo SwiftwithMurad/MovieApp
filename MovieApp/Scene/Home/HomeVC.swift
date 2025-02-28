@@ -10,6 +10,7 @@ import UIKit
 class HomeVC: UIViewController {
     private let viewModel = HomeViewModel()
     
+    
     private let refreshControl: UIRefreshControl = {
         let refresh = UIRefreshControl()
         return refresh
@@ -55,10 +56,7 @@ class HomeVC: UIViewController {
         viewModel.getAllMovies()
         viewModel.errorHandling = { [weak self] error in
             guard let self = self else { return }
-            let alertController = UIAlertController(title: "Error", message: "Data couldn't be read", preferredStyle: .alert)
-            let action = UIAlertAction(title: "Ok", style: .cancel)
-            alertController.addAction(action)
-            present(alertController, animated: true)
+            showAlert(message: error)
             refreshControl.endRefreshing()
         }
         viewModel.success = { [weak self] in
@@ -93,8 +91,10 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         }
         cell.handleCell = { [weak self] movie in
             guard let self = self else { return }
-            let controller = MovieDetailVC(viewModel: .init(id: movie.id ?? 0))
-            navigationController?.show(controller, sender: nil)
+//            let controller = MovieDetailVC(viewModel: .init(id: movie.id ?? 0))
+//            navigationController?.show(controller, sender: nil)
+            let movieDetailCoordinator = MovieDetailCoordinator(id: movie.id ?? 0, navigationController: navigationController ?? UINavigationController())
+            movieDetailCoordinator.start()
         }
         return cell
     }
