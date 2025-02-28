@@ -101,8 +101,8 @@ extension ActorsVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = ActorDetailVC()
-        controller.viewModel.id = viewModel.allActors[indexPath.row].id
+        let controller = ActorDetailVC(viewModel: .init(id: viewModel.allActors[indexPath.row].id ?? 0,
+                                                        actorManager:  viewModel.actorManager))
         controller.title = viewModel.allActors[indexPath.row].name
         navigationController?.show(controller, sender: nil)
     }

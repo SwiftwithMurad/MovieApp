@@ -8,5 +8,9 @@
 import Foundation
 
 class TrailerViewModel {
-    var key: String?
+    var key: String
+    
+    init(key: String) {
+        self.key = key
+    }
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 class FavoritesViewModel {
-    let fireStoreManager = FirestoreManager()
+    private let fireStoreManager = FirestoreManager()
     var movieDetail = [FavoritesModel]()
     var errorHandling: ((String) -> Void)?
     var success: (() -> Void)?

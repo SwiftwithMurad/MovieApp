@@ -9,7 +9,7 @@ import UIKit
 import YouTubeiOSPlayerHelper
 
 class TrailerVC: UIViewController {
-    let viewModel = TrailerViewModel()
+    let viewModel: TrailerViewModel
     
     private let movieTrailer: YTPlayerView = {
         let trailer = YTPlayerView()
@@ -17,7 +17,16 @@ class TrailerVC: UIViewController {
         trailer.translatesAutoresizingMaskIntoConstraints = false
         return trailer
     }()
-      
+    
+    init(viewModel: TrailerViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,7 +37,7 @@ class TrailerVC: UIViewController {
     private func configUI() {
         view.backgroundColor = .white
         view.addSubview(movieTrailer)
-        movieTrailer.load(withVideoId: viewModel.key ?? "",
+        movieTrailer.load(withVideoId: viewModel.key,
                           playerVars: ["playsinline": 1])
     }
     

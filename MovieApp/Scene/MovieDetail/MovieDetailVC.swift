@@ -99,8 +99,8 @@ extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         header.configHeader(movie: movie)
         header.handleButton = { [weak self] in
             guard let self = self else { return }
-            let controller = TrailerVC()
-            controller.viewModel.key = viewModel.trailer.filter({ $0.type == .trailer })[indexPath.row].key
+            let key = viewModel.trailer.filter({ $0.type == .trailer })[indexPath.row].key ?? ""
+            let controller = TrailerVC(viewModel: .init(key: key))
             navigationController?.show(controller, sender: nil)
         }
         return header

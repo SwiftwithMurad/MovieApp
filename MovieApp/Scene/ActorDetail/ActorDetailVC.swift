@@ -8,7 +8,16 @@
 import UIKit
 
 class ActorDetailVC: UIViewController {
-    let viewModel = ActorDetailViewModel()
+    let viewModel: ActorDetailViewModel
+    
+    init(viewModel: ActorDetailViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private let table: UITableView = {
         let table = UITableView()

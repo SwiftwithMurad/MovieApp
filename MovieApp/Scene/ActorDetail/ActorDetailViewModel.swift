@@ -9,13 +9,18 @@ import Foundation
 
 class ActorDetailViewModel {
     private(set) var knownFor = [Cast]()
-    let actorManager = ActorsManager()
+    private let actorManager: ActorManagerUseCase
+    private var id: Int
     var success: (() -> Void)?
     var errorHandling: ((String) -> Void)?
-    var id: Int?
+    
+    init(id: Int, actorManager: ActorManagerUseCase) {
+        self.id = id
+        self.actorManager = actorManager
+    }
     
     func getActorMovies() {
-        actorManager.getActorMovies(actorId: id ?? 0) { [weak self] data, errorMessage in
+        actorManager.getActorMovies(actorId: id) { [weak self] data, errorMessage in
             guard let self = self else { return }
             if let errorMessage {
                 errorHandling?(errorMessage)

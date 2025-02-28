@@ -12,7 +12,7 @@ class MovieDetailViewModel {
     private(set) var movie = [MovieResult]()
     private(set) var trailer = [TrailerResult]()
     private var id: Int?
-    private let movieManager = MovieManager()
+    private let movieManager =  MovieManager()
     let fireStoreManager = FirestoreManager()
     var success: (() -> Void)?
     var errorHandling: ((String) -> Void)?
