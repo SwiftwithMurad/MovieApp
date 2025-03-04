@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ActorsViewModel {
+final class ActorsViewModel {
     private(set) var actorModel: Actor?
     var actor = [Result]()
     var allActors = [Result]()
@@ -24,7 +24,7 @@ class ActorsViewModel {
             } else if let data {
                 actorModel = data
                 allActors.append(contentsOf: data.result ?? [])
-                actor = data.result ?? []
+                actor = allActors
                 success?()
             }
         }
@@ -39,5 +39,8 @@ class ActorsViewModel {
     func reset() {
         actorModel = nil
         allActors.removeAll()
+        actor.removeAll()
+        getActors()
+        success?()
     }
 }

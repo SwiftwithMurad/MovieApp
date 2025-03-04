@@ -8,8 +8,9 @@
 import UIKit
 import Foundation
 
-class AppCoordinator: Coordinator {
-    var window: UIWindow?
+final class AppCoordinator: Coordinator {
+    let window: UIWindow?
+    var childCoordinator: [Coordinator]?
     var navigationController: UINavigationController
     
     init(window: UIWindow?, navigationController: UINavigationController) {
@@ -24,16 +25,17 @@ class AppCoordinator: Coordinator {
             loginRoot()
         }
     }
+    
     func tabBarRoot() {
-        let controller = TabBar()
-        window?.rootViewController = controller
-        window?.makeKeyAndVisible()
+        let tabBarCoordinator = TabBarCoordinator(navigationController: navigationController,
+                                                  window: window)
+        tabBarCoordinator.start()
     }
     
     func loginRoot() {
-        let controller = LoginVC()
-        window?.rootViewController = controller
-        window?.makeKeyAndVisible()
+        let loginCoordinator = LoginCoordinator(navigationController: navigationController,
+                                                window: window)
+        loginCoordinator.start()
     }
 }
 

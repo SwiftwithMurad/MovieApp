@@ -46,7 +46,7 @@ class ActorsVC: UIViewController {
         search.searchBar.delegate = self
         view.addSubview(collection)
         collection.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(refreshActors), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshActors), for: .editingChanged)
         collection.delegate = self
         collection.dataSource = self
         collection.register(ImageLabelCell.self, forCellWithReuseIdentifier: "cell")
@@ -77,8 +77,6 @@ class ActorsVC: UIViewController {
     
     @objc func refreshActors() {
         viewModel.reset()
-        viewModel.getActors()
-        collection.reloadData()
     }
 }
 
@@ -98,10 +96,12 @@ extension ActorsVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = ActorDetailVC(viewModel: .init(id: viewModel.allActors[indexPath.row].id ?? 0,
-                                                        actorManager:  viewModel.actorManager))
-        controller.title = viewModel.allActors[indexPath.row].name
-        navigationController?.show(controller, sender: nil)
+        let model = viewModel.allActors[indexPath.row]
+        let actorDetailCoordinator = ActorDetailCoordinator(navigationController: navigationController ?? UINavigationController(),
+                                                            id: model.id ?? 0,
+                                                            title: model.name ?? "",
+                                                            actorManager: viewModel.actorManager)
+        actorDetailCoordinator.start()
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -113,15 +113,13 @@ extension ActorsVC: UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text, !text.isEmpty else {
             viewModel.allActors = viewModel.actor
-            refreshActors()
             return
         }
-        viewModel.allActors = viewModel.actor.filter({ $0.name?.lowercased().contains(text.lowercased()) ?? false })
+        viewModel.allActors = viewModel.allActors.filter({ $0.name?.lowercased().contains(text.lowercased()) ?? false })
         collection.reloadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.allActors = viewModel.actor
         refreshActors()
     }
     

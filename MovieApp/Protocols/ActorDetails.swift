@@ -10,6 +10,6 @@ import Foundation
 protocol ActorDetails {
     var image: String { get }
     var movieName: String { get }
-    var rating: Double { get }
+    var ratingData: Double { get }
     var overviewText: String { get }
 }

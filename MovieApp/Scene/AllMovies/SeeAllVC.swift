@@ -83,8 +83,6 @@ class SeeAllVC: UIViewController {
     
     @objc func refreshPage() {
         viewModel.reset()
-        viewModel.getSeeAll()
-        collection.reloadData()
     }
 }
 
@@ -119,7 +117,6 @@ extension SeeAllVC: UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text, !text.isEmpty else {
             viewModel.movie = viewModel.allMovies
-            refreshPage()
             return
         }
         viewModel.movie = viewModel.allMovies.filter({ $0.title?.lowercased().contains(text.lowercased()) ?? false })
@@ -127,7 +124,6 @@ extension SeeAllVC: UISearchResultsUpdating, UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.movie = viewModel.allMovies
         refreshPage()
     }
     

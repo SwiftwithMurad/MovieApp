@@ -100,14 +100,20 @@ extension MovieDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, U
         header.configHeader(movie: movie)
         header.handleButton = { [weak self] in
             guard let self = self else { return }
-            let key = viewModel.trailer.filter({ $0.type == .trailer })[indexPath.row].key ?? ""
-            let controller = TrailerVC(viewModel: .init(key: key))
-            navigationController?.show(controller, sender: nil)
+            if viewModel.trailer.contains(where: { $0.type == .trailer }) {
+                let key = viewModel.trailer.filter({ $0.type == .trailer })[indexPath.row].key ?? ""
+                let controller = TrailerVC(viewModel: .init(key: key))
+                navigationController?.show(controller, sender: nil)
+            } else {
+                let key = viewModel.trailer.filter({ $0.type == .teaser })[indexPath.row].key ?? ""
+                let controller = TrailerVC(viewModel: .init(key: key))
+                navigationController?.show(controller, sender: nil)
+            }
         }
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        .init(width: collectionView.frame.width, height: 560)
+        .init(width: collectionView.frame.width, height: 600)
     }
 }

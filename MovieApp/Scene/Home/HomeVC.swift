@@ -83,16 +83,14 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         cell.configCell(name: model.title ?? "", data: model.items)
         cell.handleButton = { [weak self] in
             guard let self = self else { return }
-            let controller = SeeAllVC(viewModel: .init(movie: model.items,
-                                                       movieManager: viewModel.movieManager,
-                                                       selectedType: model.title ?? ""))
-            controller.title = model.title ?? ""
-            navigationController?.show(controller, sender: nil)
+            let seeAllCoordinator = SeeAllCoordinator(navigationController: navigationController ?? UINavigationController(),
+                                                      movies: model.items,
+                                                      managerUseCase: viewModel.movieManager,
+                                                      selectedType: model.title ?? "")
+            seeAllCoordinator.start()
         }
         cell.handleCell = { [weak self] movie in
             guard let self = self else { return }
-//            let controller = MovieDetailVC(viewModel: .init(id: movie.id ?? 0))
-//            navigationController?.show(controller, sender: nil)
             let movieDetailCoordinator = MovieDetailCoordinator(id: movie.id ?? 0, navigationController: navigationController ?? UINavigationController())
             movieDetailCoordinator.start()
         }

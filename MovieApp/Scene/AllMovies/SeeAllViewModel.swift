@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SeeAllViewModel {
+final class SeeAllViewModel {
     private var selectedType: String
     private var movieManager: MovieManagerUseCase
     private(set) var movieModel: Movie?
@@ -46,7 +46,7 @@ class SeeAllViewModel {
             } else if let data {
                 movieModel = data
                 movie.append(contentsOf: data.results ?? [])
-                allMovies = data.results ?? []
+                allMovies = movie
                 success?()
             }
         }
@@ -61,5 +61,8 @@ class SeeAllViewModel {
     func reset() {
         movieModel = nil
         movie.removeAll()
+        allMovies.removeAll()
+        getSeeAll()
+        success?()
     }
 }

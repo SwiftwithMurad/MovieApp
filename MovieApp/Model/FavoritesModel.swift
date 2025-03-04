@@ -9,9 +9,9 @@ import Foundation
 
 struct FavoritesModel: Codable, ActorDetails {
     let id: Int?
-    let title: String?
+    let name: String?
     let poster: String?
-    let rate: Double?
+    let rating: Double?
     let overview: String?
     
     var image: String {
@@ -19,11 +19,11 @@ struct FavoritesModel: Codable, ActorDetails {
     }
     
     var movieName: String {
-        title ?? ""
+        name ?? ""
     }
     
-    var rating: Double {
-        rate ?? 1
+    var ratingData: Double {
+        rating ?? 1
     }
     
     var overviewText: String {

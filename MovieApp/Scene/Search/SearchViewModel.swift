@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SearchViewModel {
+final class SearchViewModel {
     private(set) var movieModel: Movie?
     var movie = [MovieResult]()
     private(set) var allMovies = [MovieResult]()
@@ -24,6 +24,7 @@ class SearchViewModel {
             } else if let data {
                 movieModel = data
                 allMovies = data.results ?? []
+                movie.removeAll()
                 movie.append(contentsOf: data.results ?? [])
                 success?()
             }
@@ -39,5 +40,6 @@ class SearchViewModel {
     func resetMovies() {
         movieModel = nil
         movie.removeAll()
+        success?()
     }
 }

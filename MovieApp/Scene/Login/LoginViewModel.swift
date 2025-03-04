@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class LoginViewModel {
+final class LoginViewModel {
     let authManager = AuthManager()
     
     func config(email: String, password: String) {

@@ -39,7 +39,7 @@ struct Cast: Codable, ActorDetails {
         originalTitle ?? ""
     }
     
-    var rating: Double {
+    var ratingData: Double {
         voteAverage ?? 0
     }
     

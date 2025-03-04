@@ -109,7 +109,6 @@ class SearchVC: UIViewController {
     @objc func refreshSearch() {
         viewModel.resetMovies()
         viewModel.getAllMovies(name: searchField.text ?? "")
-        collection.reloadData()
     }
     
     private func configViewModel() {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TrailerViewModel {
+final class TrailerViewModel {
     var key: String
     
     init(key: String) {

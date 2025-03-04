@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MovieDetailViewModel {
+final class MovieDetailViewModel {
     private(set) var movieModel: MovieDetail?
     private(set) var movie = [MovieResult]()
     private(set) var trailer = [TrailerResult]()

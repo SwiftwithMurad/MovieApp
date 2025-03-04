@@ -93,7 +93,7 @@ struct KnownFor: Codable, ActorDetails {
         title ?? ""
     }
 
-    var rating: Double {
+    var ratingData: Double {
         voteAverage ?? 0
     }
 

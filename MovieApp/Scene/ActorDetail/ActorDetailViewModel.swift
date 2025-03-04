@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ActorDetailViewModel {
+final class ActorDetailViewModel {
     private(set) var knownFor = [Cast]()
     private let actorManager: ActorManagerUseCase
     private var id: Int

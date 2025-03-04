@@ -91,7 +91,7 @@ class ActorDetailCell: UITableViewCell {
     func config(data: ActorDetails) {
         movieImage.loadImage(with: data.image)
         movieName.text = data.movieName
-        ratingLabel.text = "\(String(String(data.rating).prefix(3)))/10"
+        ratingLabel.text = "\(String(String(data.ratingData).prefix(3)))/10"
         overviewLabel.text = data.overviewText
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class HomeViewModel {
+final class HomeViewModel {
     let movieManager = MovieManager()
     private(set) var movie: Movie?
     private(set) var home = [HomeModel]()
